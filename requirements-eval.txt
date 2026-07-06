@@ -1,0 +1,4 @@
+# Eval-only dependencies (kept out of the app image).
+# Install into the project venv to run evals/run_eval.py:
+#   uv pip install -r requirements-eval.txt
+deepeval==4.0.2

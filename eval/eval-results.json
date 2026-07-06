@@ -1,0 +1,448 @@
+{
+  "generated_at": "2026-07-06T20:15:39.989476+00:00",
+  "judge_model": "GrokJudge(grok-4-1-fast-reasoning)",
+  "agent_model": "grok-4-1-fast-reasoning",
+  "threshold": 0.7,
+  "summary": {
+    "num_cases": 22,
+    "overall_pass_rate": 0.818,
+    "mean_groundedness": 0.873,
+    "mean_correctness": 0.877,
+    "mean_relevancy": 0.882,
+    "by_category": {
+      "cv_facts": {
+        "n": 3,
+        "pass_rate": 1.0,
+        "mean_groundedness": 1.0,
+        "mean_correctness": 0.8,
+        "mean_relevancy": 0.9
+      },
+      "technical": {
+        "n": 6,
+        "pass_rate": 0.833,
+        "mean_groundedness": 0.867,
+        "mean_correctness": 0.883,
+        "mean_relevancy": 0.967
+      },
+      "experience_years": {
+        "n": 4,
+        "pass_rate": 0.5,
+        "mean_groundedness": 0.575,
+        "mean_correctness": 0.875,
+        "mean_relevancy": 0.95
+      },
+      "career": {
+        "n": 5,
+        "pass_rate": 1.0,
+        "mean_groundedness": 0.98,
+        "mean_correctness": 0.88,
+        "mean_relevancy": 0.86
+      },
+      "soft": {
+        "n": 4,
+        "pass_rate": 0.75,
+        "mean_groundedness": 0.95,
+        "mean_correctness": 0.925,
+        "mean_relevancy": 0.7
+      }
+    }
+  },
+  "cases": [
+    {
+      "id": "cv-education",
+      "category": "cv_facts",
+      "question": "What degrees does Julian hold and from which universities?",
+      "guardrail": false,
+      "answer": "**Julian holds a BS in Applied Mathematics and Economics from Harvard University.**\n\n- He completed MS-level studies in Statistics and Probability Theory at Columbia University (no completed master\u2019s degree is listed).",
+      "scores": {
+        "groundedness": 1.0,
+        "correctness": 0.9,
+        "relevancy": 0.9
+      },
+      "reasons": {
+        "groundedness": "Input asks for Julian's degrees/universities, which are fully present in Context (Harvard BS Applied Mathematics and Economics; Columbia MS-level Statistics and Probability Theory with explicit note of no completed master\u2019s). Actual Output matches Context exactly on both points with no added, altered, or fabricated details about employers, dates, or facts.",
+        "correctness": "Input asks for Julian's degrees/universities; Expected lists exactly two facts (BS Applied Math/Econ Harvard; MS-level Stats/Prob Columbia). Actual Output matches both facts verbatim with only minor wording and added parenthetical clarification that does not contradict Expected, producing full factual alignment and no guardrail issue.",
+        "relevancy": "The Actual Output directly answers the Input question on Julian's degrees and universities by stating the BS from Harvard and clarifying the incomplete Columbia studies; it maintains a clear professional tone, stays focused without drifting, and includes only relevant clarifying details that keep the response organized."
+      },
+      "passed": true
+    },
+    {
+      "id": "cv-contact",
+      "category": "cv_facts",
+      "question": "How can a recruiter get in touch with Julian?",
+      "guardrail": false,
+      "answer": "**Julian can be contacted directly at kaljuvee@gmail.com or via LinkedIn:** https://www.linkedin.com/in/juliankaljuvee/.\n\nHe is also the founder of **Predictive Labs** (https://predictivelabs.ai).",
+      "scores": {
+        "groundedness": 1.0,
+        "correctness": 0.7,
+        "relevancy": 0.9
+      },
+      "reasons": {
+        "groundedness": "Input asks for recruiter contact details for Julian, which are fully present in Context (kaljuvee@gmail.com and LinkedIn URL). Actual Output supplies exactly those supported facts plus the founder/Predictive Labs link also directly from Context, with no added employers, dates, numbers, or unsupported statements.",
+        "correctness": "Input asks for recruiter contact methods; Expected lists email, phone +44 7585 099 329, LinkedIn, and Predictive Labs. Actual includes email, LinkedIn, and Predictive Labs (with minor URL/formatting differences) but omits the phone entirely, creating an incomplete factual match on a key contact detail.",
+        "relevancy": "The Input question ('How can a recruiter get in touch with Julian?') is directly answered in the first sentence with email and LinkedIn details. The response stays focused on Julian, uses a clear professional tone, and the founder detail about Predictive Labs is relevant without causing disorganization or drifting off-topic."
+      },
+      "passed": true
+    },
+    {
+      "id": "cv-company",
+      "category": "cv_facts",
+      "question": "Does Julian run his own company?",
+      "guardrail": false,
+      "answer": "**Yes**, Julian runs his own company, **Predictive Labs** (https://predictivelabs.ai).\n\n- He is the founder of Predictive Labs, which builds auditable AI systems for European public services and enterprises, with focus areas including document intelligence, applied forecasting, geospatial analytics, and agentic workflows.\n- The company operates across the UK, Nordics, Benelux, and Baltics, serving sectors such as defense & public security, health & life sciences, public management, and financial services.\n- He continues to take on senior contract roles (currently AI Engineer at Indurent) alongside running the company.\n\nHe is also a co-founder/advisor to several VC-backed fintech startups (Bondora, EstateGuru, Investly).",
+      "scores": {
+        "groundedness": 1.0,
+        "correctness": 0.8,
+        "relevancy": 0.9
+      },
+      "reasons": {
+        "groundedness": "Input is directly answerable from Context (Julian is explicitly listed as founder of Predictive Labs with matching details on operations, sectors, and concurrent Indurent role). Actual Output's every claim (company name, link, focus areas, regions, sectors, Indurent contract, and startup co-founder roles) is verbatim-supported by Context with no added employers, dates, numbers, or facts.",
+        "correctness": "Actual Output matches Expected's core facts (affirmative answer naming Predictive Labs and its focus on auditable AI systems for European public services/enterprises) with only wording differences and no contradictions or omissions of required details. It adds extra details (e.g., link, focus areas, regions, contract roles, co-founder mentions) not present in Expected, but Evaluation Steps penalize only missing facts or contradictions, not expansions, and Input query provides no guardrail context.",
+        "relevancy": "The output directly answers the extracted question 'Does Julian run his own company?' with an immediate 'Yes' and company name, staying tightly focused on Julian per step 2. It maintains a clear professional tone with organized bullets (step 3), and the added details on Predictive Labs' focus areas, geographic reach, contract roles, and fintech co-founderships remain relevant without causing disorganization (step 4)."
+      },
+      "passed": true
+    },
+    {
+      "id": "tech-orchestration",
+      "category": "technical",
+      "question": "What LLM orchestration frameworks has Julian used?",
+      "guardrail": false,
+      "answer": "**Julian has used the following LLM orchestration frameworks:**\n\n- **LangGraph** and **LangChain** (including agentic workflows)\n- **LlamaIndex**\n- **Semantic Kernel**\n- **AutoGen**\n- **PromptFlow**\n- **Crew AI**\n- **Microsoft Agent Framework** (including Magentic-One)\n\nThese appear across his roles at **Indurent**, **Microsoft**, and **Vaxart**, as well as in his documented tech skills matrix.",
+      "scores": {
+        "groundedness": 0.9,
+        "correctness": 1.0,
+        "relevancy": 1.0
+      },
+      "reasons": {
+        "groundedness": "Input is fully answerable from Context (orchestration section lists LlamaIndex/Semantic Kernel/PromptFlow/AutoGen/LangGraph; skills matrix adds Crew AI; Indurent/Microsoft/Vaxart experience sections add LangChain, MSFT Agent Framework, and Magentic-One). Actual Output enumerates exactly these items with correct employer attributions and no fabricated tools, dates, or facts, satisfying steps 1, 3, and 4.",
+        "correctness": "The Actual Output fully aligns with the Expected Output by listing all referenced LLM orchestration frameworks (LangGraph, LangChain, LlamaIndex, Semantic Kernel, AutoGen, Crew AI, PromptFlow, Microsoft Agent Framework/Magentic-One) from the Input query context, with only minor wording and formatting differences and no missing facts or contradictions.",
+        "relevancy": "The Actual Output directly answers the Input question ('What LLM orchestration frameworks has Julian used?') by listing LangGraph, LangChain, LlamaIndex, Semantic Kernel, AutoGen, PromptFlow, Crew AI, and Microsoft Agent Framework, while remaining focused on Julian. It maintains a clear professional tone with structured bullets, stays strictly on-topic, and includes only relevant details about his roles at Indurent, Microsoft, and Vaxart that support the answer without disorganization."
+      },
+      "passed": true
+    },
+    {
+      "id": "tech-cloud",
+      "category": "technical",
+      "question": "Which cloud platforms is Julian experienced with?",
+      "guardrail": false,
+      "answer": "Julian is experienced with **AWS**, **Microsoft Azure**, and **Google Cloud Platform (GCP)**.\n\n- **AWS** (4 years): EMR, Athena, S3, Redshift, Presto, SageMaker, EC2.\n- **Azure** (4 years): AI Services, Cosmos DB, Fabric, Databricks, AI Search/Foundry.\n- **GCP** (3 years): BigQuery, DataFlow, DataForm, Vertex AI.\n\nThese appear across roles at Microsoft, Indurent, Vaxart, Worldremit, IKEA, and Nando\u2019s.",
+      "scores": {
+        "groundedness": 1.0,
+        "correctness": 0.9,
+        "relevancy": 1.0
+      },
+      "reasons": {
+        "groundedness": "Input asks for cloud platforms, which is fully present in Context (explicitly lists GCP, Azure, AWS with matching years 3/4/4 and tools). Actual Output directly supports every claim from Context without adding unsupported employers, dates, numbers or facts; all listed tools and roles align exactly with CV entries (e.g., AWS SageMaker/Redshift in Worldremit/Nandos, Azure AI Services in Indurent/Microsoft, GCP Vertex/BigQuery in Vaxart/IKEA). No fabrication or refusal needed.",
+        "correctness": "Input asks for Julian's cloud platforms; Expected Output lists exactly GCP, Azure and AWS as reference facts. Actual Output states the same three platforms first, then adds consistent role-based details without contradictions or omissions of the key facts, satisfying step 2 alignment criteria.",
+        "relevancy": "The Actual Output directly answers the Input question 'Which cloud platforms is Julian experienced with?' by naming AWS, Azure, and GCP with relevant experience details. It remains focused on Julian, uses a clear professional tone with structured bullets, and includes only pertinent details (years, services, companies) without disorganization or drift."
+      },
+      "passed": true
+    },
+    {
+      "id": "tech-vectordb",
+      "category": "technical",
+      "question": "What vector databases has Julian worked with?",
+      "guardrail": false,
+      "answer": "**Julian has worked with the following vector databases:**\n\n- **Pinecone**\n- **Weaviate**\n- **ChromaDB**\n\nThese are explicitly listed in his Microsoft GenAI Engineer role (Apr 2024 \u2013 Sep 2025), where he built enterprise RAG, AI search, and agentic systems. He has also used **Neo4J** (with GraphRAG) and **Azure CosmosDB** (Gremlin API) in vector-aware contexts at Indurent.",
+      "scores": {
+        "groundedness": 0.3,
+        "correctness": 0.7,
+        "relevancy": 0.9
+      },
+      "reasons": {
+        "groundedness": "Input is directly answerable from Context (explicit Vector DBs: Pinecone, Weaviate, ChromaDB listed under Microsoft GenAI Engineer role). Actual Output correctly names these three with correct employer and dates, but then fabricates unsupported claims by stating Neo4J and Azure CosmosDB were used 'in vector-aware contexts at Indurent', which the Context never asserts (Indurent only lists them under Knowledge Graphs/GraphRAG without vector DB framing). This violates step 3 and triggers step 4 failure for adding unsupported facts.",
+        "correctness": "Actual Output correctly includes all three vector DBs from the Expected Output (Pinecone, Weaviate, ChromaDB) matching the Input query context, but introduces unrequested additional databases (Neo4J, Azure CosmosDB) absent from Expected Output, creating partial misalignment on factual scope despite no guardrail or contradictions.",
+        "relevancy": "The Actual Output directly addresses the Input question 'What vector databases has Julian worked with?' by listing Pinecone, Weaviate, ChromaDB, Neo4J, and Azure CosmosDB with role-specific context from Julian's Microsoft GenAI Engineer and Indurent positions. It maintains a clear professional tone via structured bullets, stays tightly focused on Julian without drifting, and keeps all added details (e.g., RAG and GraphRAG usage) relevant and organized per steps 2-4."
+      },
+      "passed": false
+    },
+    {
+      "id": "tech-graphrag",
+      "category": "technical",
+      "question": "Does Julian have experience with knowledge graphs and GraphRAG?",
+      "guardrail": false,
+      "answer": "**Yes**, Julian has direct experience with knowledge graphs and GraphRAG.\n\n- At **Indurent** (Blackstone portfolio company, Sep 2025\u2013present), his tech stack explicitly includes **Knowledge Graphs**, **GraphRAG**, **Neo4J**, and **Azure CosmosDB (Gremlin API)** as part of production AI initiatives for lease abstraction, risk scoring, and automated valuation models.",
+      "scores": {
+        "groundedness": 1.0,
+        "correctness": 0.9,
+        "relevancy": 1.0
+      },
+      "reasons": {
+        "groundedness": "Input is directly answerable from Context (Indurent section explicitly lists Knowledge Graphs, GraphRAG, Neo4J, Azure CosmosDB (Gremlin API) under Stack for Sep 2025\u2013present role). Actual Output matches every detail exactly\u2014no added employers, dates, tools, or facts\u2014satisfying steps 1, 3, and 4 with no fabrication or unsupported claims.",
+        "correctness": "Input asks about Julian's experience with knowledge graphs and GraphRAG. Expected Output lists the core facts (yes, plus Knowledge Graphs/GraphRAG/Neo4J/Azure CosmosDB at Indurent). Actual Output matches these facts exactly while adding non-contradictory elaboration on the Indurent role and use cases, satisfying step 2 alignment with no guardrail present.",
+        "relevancy": "The Actual Output directly answers the Input question ('Does Julian have experience with knowledge graphs and GraphRAG?') with an explicit yes, remains focused on Julian, uses clear professional formatting and tone, and provides only relevant details from his Indurent role (tech stack and use cases) without drifting or disorganization."
+      },
+      "passed": true
+    },
+    {
+      "id": "tech-languages",
+      "category": "technical",
+      "question": "What programming languages does Julian use?",
+      "guardrail": false,
+      "answer": "**Julian primarily uses Python, R, and Java/Scala/Groovy.**\n\n- **Python** \u2014 his main language for data science, ML/AI, and engineering work (5+ years).\n- **R** \u2014 listed alongside Python in his core languages.\n- **Java/Scala/Groovy** \u2014 5+ years of experience, used in earlier financial services and data engineering roles.\n\nThese are the languages explicitly listed in his CV under Data & Software Engineering.",
+      "scores": {
+        "groundedness": 1.0,
+        "correctness": 1.0,
+        "relevancy": 1.0
+      },
+      "reasons": {
+        "groundedness": "Input is fully answerable from Context (explicit Languages section lists Python, R, Java/Scala/Groovy with 5+ years noted in skills matrix). Actual Output reports exactly these languages and experience details with no added employers, dates, tools, or unsupported claims, satisfying steps 1, 3, and 4.",
+        "correctness": "The Input query asks for Julian's programming languages, with Expected Output listing exactly 'Python, R, and Java/Scala/Groovy.' Actual Output matches these core facts precisely (no omissions or contradictions), while adding explanatory details consistent with the CV reference in the test parameters; no guardrail applies per step 3.",
+        "relevancy": "The Actual Output directly answers the Input question 'What programming languages does Julian use?' by listing Python, R, and Java/Scala/Groovy with focused details on Julian's experience; it maintains a clear professional tone via structured bullets, stays strictly on-topic, and adds only relevant CV-derived context without disorganization."
+      },
+      "passed": true
+    },
+    {
+      "id": "tech-rl",
+      "category": "technical",
+      "question": "Has Julian done any reinforcement learning work?",
+      "guardrail": false,
+      "answer": "**Yes**, Julian lists reinforcement learning among his core ML/AI skills.\n\n- He explicitly includes **Q-learning** (temporal difference, Monte Carlo), **Deep Q-Network (DQN)**, and **Proximal Policy Optimization (PPO)** in his ML/AI libraries section.\n- These appear alongside PyTorch, JAX, and other frameworks under a 5+ years ML/Deep Learning experience claim in his skills matrix.\n\nNo specific RL projects, production deployments, or client work are detailed in his CV or curated facts.",
+      "scores": {
+        "groundedness": 1.0,
+        "correctness": 0.8,
+        "relevancy": 0.9
+      },
+      "reasons": {
+        "groundedness": "Input asks about reinforcement learning work; Context explicitly lists RL skills (Q-learning, DQN, PPO) under ML/AI libraries in the CV section, making the query fully answerable. Actual Output correctly reports these exact tools as present in the skills matrix alongside the 5+ years ML/Deep Learning claim, adds no fabricated projects/employers/dates, and notes the absence of project details, satisfying steps 1, 3, and 4 with no unsupported statements.",
+        "correctness": "Actual Output aligns closely with Expected on core facts from Input query (yes to RL work via Q-learning variants, DQN, PPO listed in skills), with only minor wording diffs and added non-contradictory context on experience/no projects; no guardrail or missing key facts.",
+        "relevancy": "The Actual Output directly answers the Input question ('Has Julian done any reinforcement learning work?') with a clear 'Yes' supported by specific RL techniques (Q-learning, DQN, PPO) from Julian's skills matrix, uses professional tone and bullet structure without drifting off-topic, and keeps all additional details (frameworks, experience claim, lack of projects) relevant and organized."
+      },
+      "passed": true
+    },
+    {
+      "id": "exp-total",
+      "category": "experience_years",
+      "question": "How many years of experience does Julian have overall?",
+      "guardrail": false,
+      "answer": "**Over ten years.**\n\nThe CV summary states Julian has **over ten years of experience** in statistics, data science, and software/data/ML engineering. His professional timeline begins in 2010 (UBS Quantitative Analyst role) and continues through his current contract at Indurent.",
+      "scores": {
+        "groundedness": 1.0,
+        "correctness": 0.9,
+        "relevancy": 1.0
+      },
+      "reasons": {
+        "groundedness": "Input asks for overall years of experience, which is explicitly present in Context ('over ten years of experience' in the Summary section, with timeline starting 2010). Actual Output's claims match Context exactly with no added employers, dates, numbers, tools or facts, satisfying steps 1, 3 and 4.",
+        "correctness": "Input asks for overall years of experience; Expected Output specifies 'Over ten years across statistics, data science and ML/AI/software engineering'. Actual Output states 'Over ten years' with matching field details (statistics, data science, software/data/ML engineering) and supporting timeline from 2010, showing strong factual consistency with only minor wording variations and no contradictions or missing key facts.",
+        "relevancy": "The Actual Output directly answers the Input question on Julian's overall years of experience with a clear 'Over ten years' lead, remains focused on Julian, uses professional tone, and adds only relevant CV timeline details (2010 start through Indurent) without disorganization or drift."
+      },
+      "passed": true
+    },
+    {
+      "id": "exp-python",
+      "category": "experience_years",
+      "question": "How many years of Python experience does Julian have?",
+      "guardrail": false,
+      "answer": "**5+ years.**\n\nThis is stated directly in Julian\u2019s **Tech Skills Matrix** on his CV, which lists:\n\n- **Python (Pandas, Numpy, SciPy): 5+ years**\n\nHis professional experience applying Python spans multiple roles since at least 2014 (e.g., LSEG/LCH, Standard Chartered, HSBC, DBRS Morningstar, Nando\u2019s, IKEA, Worldremit, Vaxart, Microsoft, and Indurent), primarily in data science, ML engineering, and GenAI work.",
+      "scores": {
+        "groundedness": 0.2,
+        "correctness": 0.8,
+        "relevancy": 0.9
+      },
+      "reasons": {
+        "groundedness": "Input is directly answerable from Context (Tech Skills Matrix explicitly lists Python: 5+ years). Actual Output correctly states the 5+ years figure but violates step 3 by adding unsupported claims (professional Python experience 'since at least 2014' plus an enumerated list of employers and domains) that are not directly supported by the Context without alteration or fabrication, triggering step 4 failure.",
+        "correctness": "Actual Output matches the core fact from Expected (5+ years Python with Pandas/NumPy/SciPy) and Input query context, with only minor spelling variance (Numpy vs NumPy) and added elaboration on roles/companies that does not contradict or omit the reference fact; no guardrail applies.",
+        "relevancy": "The output directly extracts and answers the Input question ('How many years of Python experience does Julian have?') with '5+ years' upfront, remains focused on Julian, maintains a clear professional tone, and adds only relevant supporting details from the Tech Skills Matrix and roles without disorganization or drift."
+      },
+      "passed": false
+    },
+    {
+      "id": "exp-genai",
+      "category": "experience_years",
+      "question": "How long has Julian been working with GenAI and LLMs?",
+      "guardrail": false,
+      "answer": "**Julian has 3 years of experience with GenAI and LLMs.**\n\nThis is stated directly in his skills matrix and aligns with his professional roles:\n\n- **Microsoft** (Apr 2024 \u2013 Sep 2025): Gen AI Engineer delivering RAG, agentic workflows, LLM fine-tuning, and observability solutions for enterprise clients.\n- **Vaxart** (Jun 2023 \u2013 Mar 2024): Head of AI, building custom LLMs, RAG pipelines, and clinical/ manufacturing optimisation tools using LangChain, OpenAI, Anthropic, and LlamaIndex.\n- Earlier roles (pre-2023) focused on traditional ML, statistics, and data engineering rather than generative AI.\n\nHis work has centred on production-grade applications in financial services, biotech, energy, and private equity.",
+      "scores": {
+        "groundedness": 1.0,
+        "correctness": 0.9,
+        "relevancy": 1.0
+      },
+      "reasons": {
+        "groundedness": "Input asks for GenAI/LLM experience duration, which is explicitly present in Context (Tech Skills Matrix lists exactly '3 years'). Actual Output correctly reports this figure, attributes it to the skills matrix, and lists only the Microsoft (Apr 2024\u2013Sep 2025) and Vaxart (Jun 2023\u2013Mar 2024) roles plus the pre-2023 distinction, all verbatim from Context without any added employers, dates, tools, or facts.",
+        "correctness": "Input asks for duration of Julian's GenAI/LLM work; Expected Output specifies 'About 3 years'. Actual Output directly states '3 years of experience' with supporting timeline details (Microsoft Apr 2024\u2013Sep 2025 and Vaxart Jun 2023\u2013Mar 2024 roles) that align on the core fact without contradictions or omissions, though it adds elaboration beyond the minimal expected phrasing.",
+        "relevancy": "The Actual Output directly answers the Input question ('How long has Julian been working with GenAI and LLMs?') with a clear '3 years' statement, remains focused on Julian, uses professional tone with organized bullet points on his Microsoft and Vaxart roles, and adds only relevant timeline/details without disorganization."
+      },
+      "passed": true
+    },
+    {
+      "id": "exp-datawarehouse",
+      "category": "experience_years",
+      "question": "How much experience does Julian have with Snowflake, Databricks, Redshift and BigQuery?",
+      "guardrail": false,
+      "answer": "**Julian has 5 years of experience with Snowflake, Databricks, Redshift, and BigQuery** (grouped together in his skills matrix).\n\nThis is backed by hands-on work across multiple roles, including:\n- **Microsoft** (Snowflake, Databricks)\n- **Vaxart** (Snowflake, Databricks, BigQuery)\n- **Worldremit** (Redshift, BigQuery, Databricks)\n- **Nandos** (BigQuery, Redshift, Databricks)\n- **IKEA** and **DBRS Morningstar** (BigQuery, Redshift, Databricks)\n\nHe also lists them under his core Databases / Big Data stack.",
+      "scores": {
+        "groundedness": 0.1,
+        "correctness": 0.9,
+        "relevancy": 0.9
+      },
+      "reasons": {
+        "groundedness": "Input is directly answerable from Context (skills matrix states 'Snowflake / Databricks / Redshift / BigQuery: 5 years'). Actual Output correctly reports the 5-year figure but fabricates unsupported per-employer breakdowns (e.g., Microsoft (Snowflake, Databricks), Nandos (BigQuery, Redshift, Databricks), IKEA and DBRS Morningstar attributions) and claims of 'hands-on work across multiple roles' that are not explicitly stated, violating steps 3 and 4.",
+        "correctness": "The Actual Output aligns closely with the Expected Output's core fact of ~5 years experience across Snowflake/Databricks/Redshift/BigQuery (from Input query context), with only minor wording and elaboration differences; no contradictions or missing key facts, and no guardrail applies.",
+        "relevancy": "The Actual Output directly answers the Input question on Julian's years of experience with Snowflake/Databricks/Redshift/BigQuery by stating 5 years (grouped), supports it with focused role details (Microsoft, Vaxart, Worldremit, Nandos, IKEA, DBRS Morningstar) that remain relevant and organized, and uses a clear professional tone without drifting off-topic."
+      },
+      "passed": false
+    },
+    {
+      "id": "career-current",
+      "category": "career",
+      "question": "What is Julian's current role?",
+      "guardrail": false,
+      "answer": "**Julian is currently AI Engineer (Contract) at Indurent**, a \u00a36bn+ Blackstone portfolio company in private equity / commercial real estate (Sep 2025 \u2013 present).\n\n- He leads several AI initiatives supporting platform scale-up, multi-billion-pound merger integration, and production AI capabilities across core business and investment functions.\n- Key workstreams include AI lease abstraction, invoice processing for EPC categories, automated risk scoring from due diligence reports, and automated valuation models (AVM).\n- Stack: Azure AI Services / Fabric, LangGraph, Neo4J, GraphRAG, Streamlit / FastHTML.\n\nWant the detail on his GenAI work at Microsoft, or his private-equity work at Indurent?",
+      "scores": {
+        "groundedness": 1.0,
+        "correctness": 0.9,
+        "relevancy": 0.9
+      },
+      "reasons": {
+        "groundedness": "Input asks for current role, which is fully present in Context (AI Engineer (Contract) at Indurent, Sep 2025\u2013present, with matching responsibilities and stack). Actual Output reproduces these details verbatim with no added employers, dates, numbers, tools or facts, satisfying steps 1 and 3; no refusal or fabrication occurs.",
+        "correctness": "Input query asks for Julian's current role; Expected Output specifies AI Engineer (contract) at Indurent (6bn+ Blackstone PE/CRE portfolio) since Sep 2025 leading listed AI initiatives. Actual Output matches all these facts exactly in substance (role, company details, start date, and initiatives like lease abstraction, risk scoring, AVMs) with only minor wording/expansion differences and no contradictions or omissions of key facts.",
+        "relevancy": "The output directly answers the extracted question 'What is Julian's current role?' by stating his title and employer upfront, then provides relevant supporting details in a clear professional tone with organized bullets on his workstreams and stack. It remains focused on Julian without disorganization or drift, though the final offer for more details on other topics slightly extends beyond the strict question scope."
+      },
+      "passed": true
+    },
+    {
+      "id": "career-microsoft",
+      "category": "career",
+      "question": "What did Julian do at Microsoft?",
+      "guardrail": false,
+      "answer": "**Julian worked at Microsoft as a Gen AI Engineer (contract) from April 2024 to September 2025.**\n\nHe delivered generative AI solutions for large Fortune 100 enterprise clients across mining, automotive, oil & gas, and energy sectors. Key work included:\n\n- RAG optimisation, AI search, financial advisory tools, customer-journey predictive analytics (including call-transcription analysis), image classification/computer vision, and AI reasoning agents connected to real-time enterprise APIs.\n- Clients included ADNOC, Mubadala, Anglo American, Ternium, Bosch, and EDF Energy.\n- Implemented AI observability and safety tooling (Guardrails AI, LangFuse, LangSmith).\n- Acted as team lead, mentoring data scientists and AI engineers while handling stakeholder engagement and AI strategy definition.\n\n**Stack highlights:** Azure AI Services, Azure AI Search & AI Foundry, LangGraph/LangChain, Databricks, Snowflake, Cosmos DB, vector DBs (Pinecone, Weaviate, ChromaDB), and MLFlow.\n\nWant the detail on his GenAI work at Microsoft, or his private-equity work at Indurent?",
+      "scores": {
+        "groundedness": 0.9,
+        "correctness": 0.9,
+        "relevancy": 0.8
+      },
+      "reasons": {
+        "groundedness": "Input is fully answerable from Context (Microsoft Gen AI Engineer role Apr 2024\u2013Sep 2025 with listed responsibilities, clients, observability tools, leadership duties, and stack). Actual Output's claims match Context exactly on dates, title, clients (ADNOC etc.), use cases, Guardrails/LangFuse/LangSmith, team-lead mentoring, and core stack items; only minor paraphrasing occurs with no unsupported facts, altered employers/dates, or inventions.",
+        "correctness": "Actual Output aligns closely with Expected on all key facts from Input query (Gen AI Engineer contract Apr 2024-Sep 2025 at Microsoft, specific Fortune 100 clients, RAG/AI search/agents/observability tools, team leadership), with only wording variations and added non-contradictory details like sectors/stack; no guardrail applies.",
+        "relevancy": "The output directly answers the extracted question 'What did Julian do at Microsoft?' with a focused summary of his Gen AI Engineer role, dates, deliverables, clients, and tech stack. It maintains a clear professional tone and keeps all details relevant to Julian's Microsoft work. The sole shortcoming is the final sentence offering details on unrelated Indurent work, which introduces minor topic drift."
+      },
+      "passed": true
+    },
+    {
+      "id": "career-finance",
+      "category": "career",
+      "question": "Which financial institutions has Julian worked for?",
+      "guardrail": false,
+      "answer": "**Julian has worked for the following financial institutions** (primarily in quantitative, data science, and risk roles):\n\n- **UBS** \u2014 Data Scientist (market risk) and Quantitative Analyst (IRD/FX/MM front office), 2010\u20132014 and 2018\u20132019.\n- **London Stock Exchange Group (LSEG) / LCH** \u2014 Data Scientist, market risk, 2014\u20132015.\n- **Standard Chartered Bank** \u2014 Data Scientist / Quantitative Analyst, market risk, 2016\u20132017.\n- **HSBC** \u2014 Quantitative Analyst (product control) and Data Scientist / Quantitative Analyst (market risk), 2015\u20132016 and 2018.\n- **DBRS Morningstar** \u2014 Quantitative Researcher / Data Scientist, structured finance and credit ratings, 2019\u20132020.\n- **Worldremit** \u2014 Head of Data Engineering, global fintech (revenue forecasting and FX reconciliation), 2022\u20132023.\n\nHe has also advised VC-backed fintech startups (Bondora, EstateGuru, Investly) and currently works with **Indurent**, a \u00a36bn+ Blackstone private-equity portfolio company.\n\nWant details on his specific work at any of these (e.g., risk models at UBS or DBRS, or fintech projects at Worldremit)?",
+      "scores": {
+        "groundedness": 1.0,
+        "correctness": 0.8,
+        "relevancy": 0.9
+      },
+      "reasons": {
+        "groundedness": "Input asks for financial institutions worked for by Julian, which is fully answerable from Context (lists UBS, LSEG/LCH, Standard Chartered, HSBC, DBRS Morningstar, Worldremit plus Indurent and startup advisories with exact matching dates/roles). Actual Output lists precisely these employers and details with no additions, alterations, or unsupported claims, satisfying steps 1, 3, and 4.",
+        "correctness": "Actual Output lists all five institutions from Expected (UBS, LSEG/LCH, Standard Chartered, HSBC, DBRS Morningstar) with matching details on roles/years, satisfying factual alignment per step 2; however it adds Worldremit, fintech startups, and Indurent (absent from Expected and only partially relevant to the 'financial institutions' query), which slightly reduces precision.",
+        "relevancy": "The output directly extracts and answers the Input question ('Which financial institutions has Julian worked for?') by listing UBS, LSEG/LCH, Standard Chartered, HSBC, DBRS Morningstar and Worldremit with role/year details, remaining tightly focused on Julian. It maintains a clear professional tone via structured bullets, stays on-topic, and adds only relevant extra context (fintech advising, Indurent role) without disorganization or drift."
+      },
+      "passed": true
+    },
+    {
+      "id": "career-vaxart",
+      "category": "career",
+      "question": "What did Julian do at Vaxart?",
+      "guardrail": false,
+      "answer": "**Julian served as Head of AI (Contract) at Vaxart, Inc.** (NASDAQ:VXRT) from June 2023 to March 2024.\n\n- **Focus area**: biotech, specifically AI-driven drug design, vaccine bioreactor manufacturing optimisation, and clinical trial optimisation.\n- **Key work**:\n  - Defined and built a proprietary platform for optimising vaccine bioreactor manufacturing processes, including custom RAG-based LLMs for data analysis.\n  - Delivered a proof-of-concept for data ingestion, in-silico mutagenesis experiments, cross-validation, molecular dynamics, and mutation probability modelling using the DeepChain.bio platform.\n  - Developed LLM-based approaches to improve clinical trial design, monitoring, and regulatory reporting.\n- **Stack**: GCP/BigQuery, Snowflake, Databricks, Streamlit, Python, LangChain, OpenAI, Anthropic, LlamaIndex.\n\nWant details on his Microsoft GenAI work or his current role at Indurent?",
+      "scores": {
+        "groundedness": 1.0,
+        "correctness": 0.9,
+        "relevancy": 0.8
+      },
+      "reasons": {
+        "groundedness": "Input asks about Vaxart role, which is fully present in Context. Actual Output matches Context exactly on title, dates (Jun 2023\u2013Mar 2024), biotech focus areas, three listed responsibilities (RAG platform, DeepChain.bio POC, clinical trial LLMs), and stack (GCP/BigQuery, Snowflake, Databricks, Streamlit, Python, LangChain, OpenAI, Anthropic, LlamaIndex) with no added employers, altered facts, or unsupported claims.",
+        "correctness": "Actual Output aligns closely with Expected on all key facts from Input query (Julian's Vaxart role): Head of AI contract role in 2023-2024 biotech context, vaccine bioreactor platform with custom RAG LLMs, in-silico mutagenesis experiments, and LLM approaches for clinical trial design/regulatory reporting. Minor differences in wording, added details (exact dates, stack, PoC elements), and offer of further info do not contradict or omit Expected facts.",
+        "relevancy": "The output directly answers the extracted question 'What did Julian do at Vaxart?' by stating his title and dates, then listing focused, relevant details on his biotech/AI work, key projects, and tech stack at Vaxart. It maintains a clear professional tone and remains organized without disorganisation. The sole shortcoming is the final sentence offering unrelated details on Microsoft/Indurent, which introduces minor drift from the specific question."
+      },
+      "passed": true
+    },
+    {
+      "id": "career-pe",
+      "category": "career",
+      "question": "Has Julian worked in private equity?",
+      "guardrail": false,
+      "answer": "**Yes**, Julian has worked in private equity.\n\n- He is currently an **AI Engineer (Contract)** at **Indurent** (Sep 2025\u2013present), a \u00a36bn+ Blackstone portfolio company in the PE / CRE space. His work includes AI lease abstraction, invoice processing, risk scoring, and automated valuation models to support platform scale-up and multi-billion-pound merger integration.\n- The CV summary explicitly lists **private equity (PE)** among his primary domains, alongside financial services, semiconductor, and retail/FMCG.\n- He has also built PE-focused projects such as **PE Hero** (pehero), a private-equity financial research and deal-simulation platform.\n\nWant the detail on his work at Indurent or his PE-related open-source projects?",
+      "scores": {
+        "groundedness": 1.0,
+        "correctness": 0.9,
+        "relevancy": 0.9
+      },
+      "reasons": {
+        "groundedness": "Input asks if Julian worked in private equity; Context explicitly confirms this via the CV summary (PE domain), Indurent role (Blackstone PE/CRE portfolio company, Sep 2025\u2013present, with matching AI responsibilities), and PE Hero project. Actual Output's every claim (domains, Indurent details, PE Hero) is directly supported without additions, alterations, or unsupported statements, satisfying steps 1, 3, and 4.",
+        "correctness": "Actual Output aligns with Expected on the core fact (yes via current Indurent/Blackstone PE role) and Input query context, with consistent details and no contradictions or missing key facts, though it adds extraneous project/CV summary info beyond the Expected's concise reference.",
+        "relevancy": "The output directly answers the extracted question 'Has Julian worked in private equity?' with an immediate yes, then supplies focused, relevant supporting details on Julian's Indurent role, CV domains, and PE Hero project. It maintains a clear professional tone and organized bullet format without drifting off-topic or introducing confusion."
+      },
+      "passed": true
+    },
+    {
+      "id": "soft-fit-leadership",
+      "category": "soft",
+      "question": "Would Julian be a good fit for a senior AI engineering leadership role?",
+      "guardrail": false,
+      "answer": "**Yes**, Julian would be a strong fit for a senior AI engineering leadership role.\n\nHis background combines deep technical GenAI/ML expertise with explicit team-lead and delivery ownership across enterprise and PE environments:\n\n- **Leadership experience**: Served as **Head of AI** (Vaxart) and **Head of Data Engineering** (Worldremit); at Microsoft acted as team lead mentoring data scientists and AI engineers while defining AI strategy for Fortune 100 clients.\n- **Recent delivery at scale**: Currently leading multiple production AI initiatives at **Indurent** (Blackstone \u00a36bn+ portfolio company), including lease abstraction, risk scoring, and automated valuation models using Azure AI, LangGraph, GraphRAG and Neo4J.\n- **GenAI stack depth**: Hands-on with agentic workflows (LangGraph, AutoGen, Semantic Kernel), RAG optimisation, LLM evaluation (LangSmith, DeepEval), and observability across Azure, GCP and AWS.\n- **Cross-sector track record**: Delivered AI solutions in financial services (UBS, HSBC, DBRS), biotech (Vaxart), retail (Nando\u2019s, IKEA) and public-sector-adjacent work via Predictive Labs.\n\nHe is particularly well-suited for roles that require both technical depth in modern LLM/agent systems and the ability to lead small-to-mid-sized engineering teams in regulated or complex domains. \n\nWant the detail on his Microsoft team-lead work or his current Indurent AI initiatives?",
+      "scores": {
+        "groundedness": 1.0,
+        "correctness": 0.9,
+        "relevancy": 1.0
+      },
+      "reasons": {
+        "groundedness": "The Input question is fully answerable from the provided Context (CV + curated facts). Every specific claim in the Actual Output\u2014Head of AI at Vaxart, Head of Data Engineering at Worldremit, Microsoft team-lead mentoring + Fortune 100 AI strategy work, current Indurent initiatives (lease abstraction, risk scoring, AVM) with Blackstone \u00a36bn+ detail and exact stack (Azure AI, LangGraph, GraphRAG, Neo4J), GenAI tools, and cross-sector clients (UBS/HSBC/DBRS, Vaxart, Nando\u2019s/IKEA)\u2014matches the Context verbatim without any added employers, dates, numbers, or unsupported facts.",
+        "correctness": "Input query asks about Julian's fit for senior AI engineering leadership. Expected Output specifies positive but grounded assessment citing team-lead/mentoring at Microsoft, Head of AI at Vaxart, Head of Data Engineering at Worldremit, and deep GenAI engineering. Actual Output matches all these facts exactly (with added but non-contradictory details on Indurent and sectors), uses similar positive-yet-grounded tone, and contains no guardrail issues or exaggerations.",
+        "relevancy": "The Actual Output directly answers the Input question ('Would Julian be a good fit for a senior AI engineering leadership role?') with an immediate affirmative, remains tightly focused on Julian throughout, employs a clear professional tone with structured bullets, and supplies only relevant leadership, delivery, and technical details without disorganization or drift."
+      },
+      "passed": true
+    },
+    {
+      "id": "soft-intro",
+      "category": "soft",
+      "question": "Can you tell me a bit about Julian?",
+      "guardrail": false,
+      "answer": "**Julian Kaljuvee** is a senior technology, data and risk leader with over ten years of experience in statistics, data science, ML/AI engineering and software engineering. He has worked primarily in financial services, private equity, biotech, retail/FMCG and public sector domains.\n\nHe currently serves as **AI Engineer (Contract)** at **Indurent**, a \u00a36bn+ Blackstone portfolio company in private equity / commercial real estate, where he leads AI initiatives including lease abstraction, risk scoring and automated valuation models. He is also the founder of **Predictive Labs**, an AI company focused on auditable systems for public services and enterprises.\n\nHis professional experience includes roles at **Microsoft**, **Vaxart**, **Worldremit**, **IKEA**, **Nando\u2019s**, **DBRS Morningstar**, **UBS**, **HSBC**, **Standard Chartered** and **London Stock Exchange Group**.\n\nWould you like details on his experience in a specific sector (e.g. private equity, GenAI, financial services), his tech stack, or his open-source projects?",
+      "scores": {
+        "groundedness": 0.9,
+        "correctness": 0.9,
+        "relevancy": 0.9
+      },
+      "reasons": {
+        "groundedness": "Input is a general request fully answerable from Context; Actual Output's summary of Julian's title, experience length, domains (including public sector and biotech), current Indurent role with \u00a36bn+ Blackstone detail, Predictive Labs founding, and listed employers (Microsoft through LSEG) are all directly supported without altered dates, numbers, or invented facts. Minor deduction for slight domain phrasing expansion beyond the CV's 'primarily' list, though still grounded in the curated facts section.",
+        "correctness": "Actual Output aligns closely with Expected's required facts (senior tech/data/AI leader, 10+ years, domains of financial services/private equity/biotech/retail, current roles at Indurent and Predictive Labs) from the Input query context, with consistent details and no contradictions or omissions of key points; minor deduction for added verbosity and extra elements like public sector and company list beyond the tight summary specified in Expected.",
+        "relevancy": "The Actual Output directly answers the Input question about Julian by delivering a concise professional bio focused exclusively on his experience, roles, and companies; it maintains clear structure and tone without drifting, and the closing offer of sector-specific details remains relevant and non-disruptive per steps 2-4."
+      },
+      "passed": true
+    },
+    {
+      "id": "soft-guardrail-salary",
+      "category": "soft",
+      "question": "What is Julian's salary expectation?",
+      "guardrail": true,
+      "answer": "I don't have information on Julian's salary expectations or compensation preferences.\n\nPlease reach out to him directly at **kaljuvee@gmail.com** or via LinkedIn (https://www.linkedin.com/in/juliankaljuvee/) to discuss.",
+      "scores": {
+        "groundedness": 1.0,
+        "correctness": 1.0,
+        "relevancy": 0.9
+      },
+      "reasons": {
+        "groundedness": "Input asks for salary expectations, which are absent from the provided CV and curated facts Context. Actual Output correctly issues a polite refusal and directs the user to contact Julian at kaljuvee@gmail.com or the listed LinkedIn URL without inventing any details, satisfying steps 1-2 and avoiding any fabrication per step 4.",
+        "correctness": "Actual Output fully aligns with the guardrail in Expected Output by refusing to invent salary details (absent from CV per Input query) and directing the user to contact Julian directly via email/LinkedIn, with no factual contradictions or omissions.",
+        "relevancy": "The Input question is explicitly 'What is Julian's salary expectation?'. The Actual Output directly addresses it by stating it lacks the information, remains tightly focused on Julian, uses a clear professional tone, and supplies only relevant contact details that help obtain the requested information without any drift or disorganization."
+      },
+      "passed": true
+    },
+    {
+      "id": "soft-guardrail-offtopic",
+      "category": "soft",
+      "question": "Can you write me a Python script to scrape Amazon?",
+      "guardrail": true,
+      "answer": "I'm here to answer questions about Julian Kaljuvee's background and work \u2014 happy to help with that.",
+      "scores": {
+        "groundedness": 0.9,
+        "correctness": 0.9,
+        "relevancy": 0.0
+      },
+      "reasons": {
+        "groundedness": "Input requests a Python scraping script absent from the CV/facts Context about Julian; Actual Output issues a concise polite refusal staying strictly on Julian's background without any fabrication or unsupported claims, satisfying steps 1, 2 and 4.",
+        "correctness": "Input is off-topic (Python scraping script); Expected Output flags GUARDRAIL and requires polite decline + steer to Julian Kaljuvee background/work. Actual Output matches by stating its scope is limited to Julian's background/work and offering help there, with only minor wording variance and no contradictions or missing elements.",
+        "relevancy": "The Input question asks for a Python script to scrape Amazon, but the Actual Output provides no answer to it and only redirects to Julian Kaljuvee; this fails steps 1-2 on directly answering the extracted question while focused on Julian, though the tone is professional per step 3 and no extraneous Julian details are added per step 4."
+      },
+      "passed": false
+    }
+  ]
+}
