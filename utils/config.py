@@ -15,7 +15,9 @@ class Settings(BaseSettings):
     db_url: str = Field(default="sqlite:///kaljuvee_chat.db", alias="DB_URL")
     app_secret: str = Field(default="ask-julian-2026", alias="APP_SECRET")
     port: int = Field(default=5011, alias="PORT")
-    service_url: str = Field(default="https://kaljuvee.chat", alias="SERVICE_URL")
+    # Public base URL for OAuth redirect + email links. NOT named SERVICE_URL —
+    # Coolify reserves the SERVICE_URL* prefix for its own auto-generated magic vars.
+    service_url: str = Field(default="https://kaljuvee.chat", alias="APP_BASE_URL")
 
     # LLM providers (langchain_openai compatible: OpenAI or xAI Grok)
     xai_api_key: str = Field(default="", alias="XAI_API_KEY")

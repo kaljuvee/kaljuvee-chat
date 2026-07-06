@@ -9,7 +9,9 @@ services:
       # SQLite lives on the named volume so accounts/history survive redeploys.
       - DB_URL=sqlite:////app/data/kaljuvee_chat.db
       - APP_SECRET=${APP_SECRET}
-      - SERVICE_URL=${SERVICE_URL:-https://kaljuvee.chat}
+      # Public base URL. Uses Coolify's auto-generated SERVICE_URL_WEB (the app's
+      # domain) so OAuth redirects + email links are correct; falls back for local.
+      - APP_BASE_URL=${SERVICE_URL_WEB:-https://kaljuvee.chat}
       - LLM_PROVIDER=${LLM_PROVIDER:-xai}
       - XAI_API_KEY=${XAI_API_KEY}
       - XAI_BASE_URL=${XAI_BASE_URL:-https://api.x.ai/v1}

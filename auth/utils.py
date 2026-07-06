@@ -12,7 +12,7 @@ import bcrypt
 
 from utils.email import send_email
 
-BASE_URL = os.getenv("SERVICE_URL", "https://kaljuvee.chat")
+BASE_URL = os.getenv("APP_BASE_URL", "https://kaljuvee.chat")
 
 
 def hash_password(password: str) -> str:
