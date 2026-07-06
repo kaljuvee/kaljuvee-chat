@@ -885,3 +885,121 @@
   line-height: 1;
 }
 .fav-btn:hover { color: #DC2626; }
+
+/* ═══════════════════════════════════════════════════════════════════
+   Ask Julian — brand, nav, projects, articles
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Brand / logo (top-left) */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  margin-bottom: 10px;
+}
+.brand-logo {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--border, #E5E5E5);
+  flex-shrink: 0;
+}
+.brand-text { display: flex; flex-direction: column; line-height: 1.15; }
+.brand-name {
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #1A1A1A;
+}
+.brand-sub { font-size: 11px; color: #9CA3AF; letter-spacing: .02em; }
+
+/* Sample questions in left nav */
+.nav-questions { display: flex; flex-direction: column; gap: 4px; padding: 0 8px; }
+.nav-question {
+  text-align: left;
+  background: #F7F7F7;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 7px 10px;
+  font-size: 12.5px;
+  color: #374151;
+  cursor: pointer;
+  line-height: 1.35;
+  transition: all .12s;
+}
+.nav-question:hover { background: #EEF0F2; border-color: #E5E5E5; color: #111; }
+
+/* Projects by sector */
+.project-group { margin: 4px 8px 10px; }
+.project-sector {
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: #9CA3AF;
+  margin: 8px 4px 4px;
+  font-weight: 600;
+}
+.project-link {
+  display: block;
+  font-size: 12.5px;
+  color: #374151;
+  text-decoration: none;
+  padding: 4px 6px;
+  border-radius: 6px;
+  transition: background .12s;
+}
+.project-link:hover { background: #F3F4F6; color: #111; }
+
+/* Welcome avatar */
+.welcome-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto 14px;
+  display: block;
+  border: 1px solid var(--border, #E5E5E5);
+}
+
+/* Articles feed (right pane) */
+.article-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 10px 14px 4px;
+}
+.article-tag {
+  font-size: 11.5px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid #E5E5E5;
+  background: #fff;
+  color: #6B7280;
+  cursor: pointer;
+  transition: all .12s;
+}
+.article-tag:hover { border-color: #111; color: #111; }
+.article-tag.active { background: #111; color: #fff; border-color: #111; }
+
+.article-list { display: flex; flex-direction: column; gap: 2px; padding: 8px 10px 16px; }
+.article-card {
+  display: block;
+  text-decoration: none;
+  padding: 11px 12px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  transition: all .12s;
+}
+.article-card:hover { background: #F7F7F7; border-color: #E5E5E5; }
+.article-title { font-size: 13.5px; font-weight: 600; color: #1A1A1A; line-height: 1.35; }
+.article-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 6px; }
+.article-date { font-size: 11px; color: #9CA3AF; }
+.article-chip {
+  font-size: 10.5px;
+  color: #6B7280;
+  background: #F0F1F3;
+  border-radius: 4px;
+  padding: 1px 6px;
+}

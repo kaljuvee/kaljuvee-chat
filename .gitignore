@@ -223,3 +223,5 @@ __marimo__/
 # CarHero runtime data
 data/
 .playwright-mcp/
+
+*.db

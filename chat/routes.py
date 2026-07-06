@@ -1,22 +1,22 @@
-"""Chat routes -- 3-pane UI + SSE streaming."""
+"""Chat routes -- 3-pane UI + SSE streaming for Ask Julian."""
 
 from __future__ import annotations
 
 import json
 import logging
 
-from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
+from langchain_core.messages import HumanMessage, AIMessage
 from starlette.requests import Request
 from starlette.responses import StreamingResponse, JSONResponse
 
 from chat.layout import chat_page
 from chat import sse
+from utils.config import settings
 from utils.session import (get_user_email, set_user_email, clear_user,
-                           get_user_id, set_user_id)
+                           get_user_id, set_user_id, is_signed_in,
+                           get_anon_query_count, increment_anon_query_count)
 
 log = logging.getLogger(__name__)
-
-SCHEMA = "carhero"
 
 
 def _get_db():
@@ -34,18 +34,47 @@ def _ensure_user(sess) -> tuple[int | None, str | None]:
     from sqlalchemy import text
     db = _get_db()
     try:
+        db.execute(
+            text("INSERT INTO chat_users (email) VALUES (:email) "
+                 "ON CONFLICT (email) DO NOTHING"),
+            {"email": email},
+        )
+        db.commit()
         row = db.execute(
-            text(f"INSERT INTO {SCHEMA}.chat_users (email) VALUES (:email) "
-                 "ON CONFLICT (email) DO UPDATE SET email = EXCLUDED.email "
-                 "RETURNING id"),
+            text("SELECT id FROM chat_users WHERE email = :email"),
             {"email": email},
         ).fetchone()
-        db.commit()
         uid = row[0]
     finally:
         db.close()
     set_user_id(sess, uid)
     return uid, email
+
+
+def _ensure_guest(sess) -> int:
+    """Create/reuse a lightweight guest user so anonymous chat can be persisted."""
+    uid = get_user_id(sess)
+    if uid:
+        return uid
+    from sqlalchemy import text
+    db = _get_db()
+    guest_email = f"guest+{id(sess):x}@kaljuvee.chat"
+    try:
+        db.execute(
+            text("INSERT INTO chat_users (email) VALUES (:email) "
+                 "ON CONFLICT (email) DO NOTHING"),
+            {"email": guest_email},
+        )
+        db.commit()
+        row = db.execute(
+            text("SELECT id FROM chat_users WHERE email = :email"),
+            {"email": guest_email},
+        ).fetchone()
+        uid = row[0]
+    finally:
+        db.close()
+    set_user_id(sess, uid)
+    return uid
 
 
 def _ensure_session(user_id, sid, first_message=None):
@@ -59,18 +88,19 @@ def _ensure_session(user_id, sid, first_message=None):
                 sid_int = 0
             if sid_int:
                 row = db.execute(
-                    text(f"SELECT id FROM {SCHEMA}.chat_sessions WHERE id = :sid AND user_id = :uid"),
+                    text("SELECT id FROM chat_sessions WHERE id = :sid AND user_id = :uid"),
                     {"sid": sid_int, "uid": user_id},
                 ).fetchone()
                 if row:
                     return sid_int
 
         title = (first_message or "New chat")[:80]
-        row = db.execute(
-            text(f"INSERT INTO {SCHEMA}.chat_sessions (user_id, title) VALUES (:uid, :title) RETURNING id"),
+        db.execute(
+            text("INSERT INTO chat_sessions (user_id, title) VALUES (:uid, :title)"),
             {"uid": user_id, "title": title},
-        ).fetchone()
+        )
         db.commit()
+        row = db.execute(text("SELECT last_insert_rowid()")).fetchone()
         return row[0]
     finally:
         db.close()
@@ -81,7 +111,7 @@ def _list_sessions(user_id, limit=30):
     db = _get_db()
     try:
         rows = db.execute(
-            text(f"SELECT id, title, agent_slug, updated_at FROM {SCHEMA}.chat_sessions "
+            text("SELECT id, title, agent_slug, updated_at FROM chat_sessions "
                  "WHERE user_id = :uid ORDER BY updated_at DESC LIMIT :lim"),
             {"uid": user_id, "lim": limit},
         ).fetchall()
@@ -95,7 +125,7 @@ def _session_messages(session_id):
     db = _get_db()
     try:
         rows = db.execute(
-            text(f"SELECT role, content, agent_slug FROM {SCHEMA}.chat_messages "
+            text("SELECT role, content, agent_slug FROM chat_messages "
                  "WHERE session_id = :sid ORDER BY id ASC"),
             {"sid": session_id},
         ).fetchall()
@@ -109,14 +139,14 @@ def _persist_message(session_id, role, content, agent_slug=None, tool_calls=None
     db = _get_db()
     try:
         db.execute(
-            text(f"INSERT INTO {SCHEMA}.chat_messages (session_id, role, content, agent_slug, tool_calls) "
+            text("INSERT INTO chat_messages (session_id, role, content, agent_slug, tool_calls) "
                  "VALUES (:sid, :role, :content, :agent, :tools)"),
             {"sid": session_id, "role": role, "content": content,
              "agent": agent_slug,
              "tools": json.dumps(tool_calls) if tool_calls else None},
         )
         db.execute(
-            text(f"UPDATE {SCHEMA}.chat_sessions SET updated_at = now() WHERE id = :sid"),
+            text("UPDATE chat_sessions SET updated_at = CURRENT_TIMESTAMP WHERE id = :sid"),
             {"sid": session_id},
         )
         db.commit()
@@ -139,7 +169,7 @@ def register_chat_routes(rt):
                 db = _get_db()
                 try:
                     row = db.execute(
-                        text(f"SELECT id, agent_slug FROM {SCHEMA}.chat_sessions WHERE id = :sid AND user_id = :uid"),
+                        text("SELECT id, agent_slug FROM chat_sessions WHERE id = :sid AND user_id = :uid"),
                         {"sid": int(sid), "uid": uid},
                     ).fetchone()
                     if row:
@@ -150,15 +180,12 @@ def register_chat_routes(rt):
             except (TypeError, ValueError):
                 pass
 
-        from utils.i18n import get_lang
-        lang = get_lang(sess)
         return chat_page(
             user_email=email,
             sessions=sessions,
             current_sid=str(sid) if sid else "",
             messages=messages,
             current_agent_slug=current_agent,
-            lang=lang,
         )
 
     @rt("/app/chat", methods=["POST"])
@@ -171,21 +198,27 @@ def register_chat_routes(rt):
         if not user_msg:
             return JSONResponse({"error": "empty message"}, status_code=400)
 
-        uid, email = _ensure_user(sess)
-        if not uid:
-            from sqlalchemy import text
-            db = _get_db()
-            try:
-                row = db.execute(
-                    text(f"INSERT INTO {SCHEMA}.chat_users (email) VALUES (:email) "
-                         "ON CONFLICT (email) DO UPDATE SET email = EXCLUDED.email RETURNING id"),
-                    {"email": f"guest+{id(sess):x}@carhero.local"},
-                ).fetchone()
-                db.commit()
-                uid = row[0]
-            finally:
-                db.close()
-            set_user_id(sess, uid)
+        # --- Free-query gate (bot / token-drain protection) ---------------
+        free_limit = settings().free_query_limit
+        signed_in = is_signed_in(sess)
+        if not signed_in and get_anon_query_count(sess) >= free_limit:
+            async def gate_stream():
+                yield sse.event(sse.GATE, {
+                    "limit": free_limit,
+                    "message": ("You've reached the free preview limit. "
+                                "Please sign in to continue chatting with Ask Julian."),
+                })
+            return StreamingResponse(gate_stream(), media_type="text/event-stream")
+
+        # Count this query (only for anonymous visitors). Mutate the session in the
+        # handler body — not inside the generator — so the cookie is persisted.
+        if not signed_in:
+            increment_anon_query_count(sess)
+            uid = _ensure_guest(sess)
+        else:
+            uid, _ = _ensure_user(sess)
+            if not uid:
+                uid = _ensure_guest(sess)
 
         session_id = _ensure_session(uid, sid_str, first_message=user_msg)
 
@@ -206,16 +239,7 @@ def register_chat_routes(rt):
                 "icon": spec.icon if spec else "*",
             })
 
-            from utils.i18n import get_lang, LANGUAGES
-            lang = get_lang(sess)
-            lang_info = LANGUAGES.get(lang, LANGUAGES["en"])
-            lang_directive = ""
-            if lang != "en":
-                lang_directive = (
-                    f"\nUser language: {lang} ({lang_info['name']}). "
-                    f"Respond in {lang_info['name']}."
-                )
-            lc_messages = [SystemMessage(content=f"You are a CarHero car advisor. Respond helpfully and concisely.{lang_directive}")]
+            lc_messages = []
             for h in history[-20:]:
                 if h["role"] == "user":
                     lc_messages.append(HumanMessage(content=h["content"]))
@@ -224,7 +248,6 @@ def register_chat_routes(rt):
             lc_messages.append(HumanMessage(content=stripped_msg))
 
             accumulated = []
-            tool_calls_log = []
 
             try:
                 from agents.base import cached_agent
@@ -238,54 +261,23 @@ def register_chat_routes(rt):
                             if not getattr(chunk, "tool_call_chunks", None):
                                 accumulated.append(chunk.content)
                                 yield sse.event(sse.TOKEN, {"text": chunk.content})
-                    elif kind == "on_tool_start":
-                        name = event.get("name", "unknown")
-                        args = event["data"].get("input", {})
-                        tool_calls_log.append({"name": name, "args": args})
-                        yield sse.event(sse.TOOL_START, {"name": name, "args": args})
-                    elif kind == "on_tool_end":
-                        name = event.get("name", "unknown")
-                        raw = event["data"].get("output", "")
-                        output = getattr(raw, "content", None) or (raw if isinstance(raw, str) else str(raw))
-                        yield sse.event(sse.TOOL_END, {"name": name, "output": output[:2000]})
-
-                        if isinstance(output, str) and "__ARTIFACT__" in output:
-                            try:
-                                artifact_str = output[output.index("__ARTIFACT__") + len("__ARTIFACT__"):]
-                                sep = artifact_str.find("\n\n")
-                                if sep != -1:
-                                    artifact_str = artifact_str[:sep]
-                                payload = json.loads(artifact_str)
-                                yield sse.event(sse.ARTIFACT, payload)
-                            except Exception:
-                                pass
             except Exception as e:
                 log.exception("chat stream failed")
                 yield sse.event(sse.ERROR, {"message": str(e)})
 
             final = "".join(accumulated) or "(no response)"
-            _persist_message(session_id, "assistant", final, agent_slug=agent_slug,
-                             tool_calls=tool_calls_log or None)
+            _persist_message(session_id, "assistant", final, agent_slug=agent_slug)
             from sqlalchemy import text
             db = _get_db()
             try:
-                db.execute(text(f"UPDATE {SCHEMA}.chat_sessions SET agent_slug = :slug WHERE id = :sid"),
+                db.execute(text("UPDATE chat_sessions SET agent_slug = :slug WHERE id = :sid"),
                            {"slug": agent_slug, "sid": session_id})
                 db.commit()
             finally:
                 db.close()
-            yield sse.event(sse.DONE, {"slug": agent_slug, "tools": len(tool_calls_log)})
+            yield sse.event(sse.DONE, {"slug": agent_slug})
 
         return StreamingResponse(event_stream(), media_type="text/event-stream")
-
-    @rt("/app/config", methods=["POST"])
-    async def app_config(request: Request):
-        from utils.i18n import set_lang, get_lang
-        form = await request.form()
-        lang_code = (form.get("lang") or "").strip()
-        if lang_code:
-            set_lang(request.session, lang_code)
-        return JSONResponse({"ok": True, "lang": get_lang(request.session)})
 
     @rt("/app/auth/signin", methods=["POST"])
     async def signin(request: Request):
@@ -307,6 +299,8 @@ def register_chat_routes(rt):
         sess = request.session
         uid, _ = _ensure_user(sess)
         if not uid:
+            uid = get_user_id(sess)
+        if not uid:
             return JSONResponse({"error": "not signed in"}, status_code=401)
         try:
             sid_int = int(sid)
@@ -316,7 +310,7 @@ def register_chat_routes(rt):
         db = _get_db()
         try:
             row = db.execute(
-                text(f"SELECT share_token FROM {SCHEMA}.chat_sessions WHERE id = :sid AND user_id = :uid"),
+                text("SELECT share_token FROM chat_sessions WHERE id = :sid AND user_id = :uid"),
                 {"sid": sid_int, "uid": uid},
             ).fetchone()
             if not row:
@@ -326,7 +320,7 @@ def register_chat_routes(rt):
                 import secrets
                 token = secrets.token_urlsafe(32)
                 db.execute(
-                    text(f"UPDATE {SCHEMA}.chat_sessions SET share_token = :token WHERE id = :sid"),
+                    text("UPDATE chat_sessions SET share_token = :token WHERE id = :sid"),
                     {"token": token, "sid": sid_int},
                 )
                 db.commit()
@@ -340,10 +334,10 @@ def register_chat_routes(rt):
         db = _get_db()
         try:
             row = db.execute(
-                text(f"SELECT s.id, s.title, s.agent_slug, u.email "
-                     f"FROM {SCHEMA}.chat_sessions s "
-                     f"JOIN {SCHEMA}.chat_users u ON u.id = s.user_id "
-                     f"WHERE s.share_token = :token"),
+                text("SELECT s.id, s.title, s.agent_slug, u.email "
+                     "FROM chat_sessions s "
+                     "JOIN chat_users u ON u.id = s.user_id "
+                     "WHERE s.share_token = :token"),
                 {"token": token},
             ).fetchone()
             if not row:
@@ -360,20 +354,3 @@ def register_chat_routes(rt):
             messages=messages,
             agent_slug=row[2],
         )
-
-    @rt("/api/deal/{deal_id}")
-    def deal_lookup(deal_id: str):
-        from sqlalchemy import text
-        db = _get_db()
-        try:
-            row = db.execute(
-                text(f"SELECT make, model FROM {SCHEMA}.deals WHERE id = :did AND status = 'active'"),
-                {"did": deal_id},
-            ).fetchone()
-            if not row:
-                return JSONResponse({"error": "deal not found"}, status_code=404)
-            return JSONResponse({"deal_id": deal_id, "make": row.make, "model": row.model})
-        except Exception:
-            return JSONResponse({"error": "invalid deal id"}, status_code=400)
-        finally:
-            db.close()

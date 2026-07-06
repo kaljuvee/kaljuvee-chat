@@ -1,0 +1,29 @@
+# Articles / writing feed shown in the right-hand pane of kaljuvee.chat.
+#
+# Add one entry per article you publish and it appears instantly on next page load
+# (no redeploy). LinkedIn articles can't be auto-fetched, so list them here.
+#
+# Each entry:
+#   title: "Headline of the article"
+#   url:   "https://www.linkedin.com/pulse/..."
+#   date:  "2025-06-01"          # YYYY-MM-DD (optional, used for sorting)
+#   tags:  [RAG, Enterprise, Search]   # optional; power the tag filter
+#
+# Optional: point `rss_feeds` at any RSS/Atom source (Medium, Substack, Ghost,
+# a Jekyll blog's /feed.xml) and its items are merged in and de-duplicated
+# automatically, so new posts there show up with zero manual edits.
+
+rss_feeds: []
+#   - https://yourblog.example.com/feed.xml
+
+articles:
+  # --- Seed / examples — replace these with your real articles ---
+  - title: "RAG Enterprise Search"
+    url: "https://www.linkedin.com/in/juliankaljuvee/recent-activity/articles/#rag-enterprise-search"
+    date: "2025-06-01"
+    tags: [RAG, Enterprise, Search]
+
+  - title: "Estonia AI Meetup — talk"
+    url: "https://www.linkedin.com/in/juliankaljuvee/recent-activity/articles/#estonia-ai-meetup"
+    date: "2025-03-01"
+    tags: [AI, Talks]

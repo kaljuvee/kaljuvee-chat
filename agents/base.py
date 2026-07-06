@@ -1,4 +1,4 @@
-"""Shared helpers for building LangGraph ReAct agents."""
+"""Build the Ask Julian LangGraph agent, grounded in the CV + curated facts."""
 
 from __future__ import annotations
 
@@ -14,20 +14,28 @@ from utils.llm import build_agent_llm
 
 log = logging.getLogger(__name__)
 
-PROMPTS_DIR = Path(__file__).resolve().parent.parent / "prompts" / "system"
-SHARED_PROMPT_FILE = Path(__file__).resolve().parent.parent / "prompts" / "shared" / "car_context.md"
+ROOT = Path(__file__).resolve().parent.parent
+SYSTEM_DIR = ROOT / "prompts" / "system"
+SHARED_DIR = ROOT / "prompts" / "shared"
+
+
+def _read(path: Path) -> str:
+    return path.read_text() if path.exists() else ""
 
 
 def _load_system_prompt(slug: str) -> str:
-    shared = SHARED_PROMPT_FILE.read_text() if SHARED_PROMPT_FILE.exists() else ""
-    specific_file = PROMPTS_DIR / f"{slug}.md"
-    specific = specific_file.read_text() if specific_file.exists() else ""
-    if not specific:
-        log.warning("no system prompt for %s -- using shared context only", slug)
-    voice_file = PROMPTS_DIR / "voice.md"
-    voice = voice_file.read_text() if slug == "kenri" and voice_file.exists() else ""
-    parts = [shared, specific, voice]
-    return "\n\n".join(p for p in parts if p).strip()
+    """Compose persona + CV + curated facts into one grounded system prompt."""
+    persona = _read(SYSTEM_DIR / f"{slug}.md")
+    cv = _read(SHARED_DIR / "cv.md")
+    facts = _read(SHARED_DIR / "career_facts.md")
+    if not persona:
+        log.warning("no persona prompt for %s", slug)
+    parts = [
+        persona,
+        "# Julian Kaljuvee — CV (verbatim source of truth)\n\n" + cv if cv else "",
+        facts,
+    ]
+    return "\n\n---\n\n".join(p for p in parts if p).strip()
 
 
 def build_agent(spec: AgentSpec, tools: list[BaseTool]):
@@ -36,13 +44,12 @@ def build_agent(spec: AgentSpec, tools: list[BaseTool]):
     return create_react_agent(llm, tools, prompt=system or None)
 
 
-@lru_cache(maxsize=64)
+@lru_cache(maxsize=8)
 def cached_agent(slug: str):
     from agents import registry
     spec = registry.by_slug(slug)
     if spec is None:
         raise ValueError(f"unknown agent slug: {slug}")
-
     import importlib
     module = importlib.import_module(f"agents.{spec.category}.{spec.slug}")
     return module.build()
