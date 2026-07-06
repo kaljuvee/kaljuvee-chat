@@ -1,0 +1,36 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      - PORT=5011
+      # SQLite lives on the named volume so accounts/history survive redeploys.
+      - DB_URL=sqlite:////app/data/kaljuvee_chat.db
+      - APP_SECRET=${APP_SECRET}
+      - SERVICE_URL=${SERVICE_URL:-https://kaljuvee.chat}
+      - LLM_PROVIDER=${LLM_PROVIDER:-xai}
+      - XAI_API_KEY=${XAI_API_KEY}
+      - XAI_BASE_URL=${XAI_BASE_URL:-https://api.x.ai/v1}
+      - GROK_MODEL=${GROK_MODEL:-grok-4-1-fast-reasoning}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - FREE_QUERY_LIMIT=${FREE_QUERY_LIMIT:-3}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+      - POSTMARK_API_TOKEN=${POSTMARK_API_TOKEN}
+      - FROM_EMAIL=${FROM_EMAIL:-info@kaljuvee.chat}
+    volumes:
+      - kaljuvee-data:/app/data
+    ports:
+      - "5011:5011"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:5011/health').read()"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+
+volumes:
+  kaljuvee-data:
