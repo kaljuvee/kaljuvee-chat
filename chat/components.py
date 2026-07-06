@@ -19,6 +19,7 @@ PROFILE_LINKS = [
     ("GitHub", "https://github.com/kaljuvee"),
     ("Predictive Labs", "https://predictivelabs.ai"),
     ("Predictive Labs — GitHub", "https://github.com/orgs/predictivelabsai/repositories"),
+    ("How this was built?", "https://github.com/kaljuvee/kaljuvee-chat"),
 ]
 
 PROJECTS_BY_SECTOR = [
