@@ -25,8 +25,10 @@ services:
       - FROM_EMAIL=${FROM_EMAIL:-info@kaljuvee.chat}
     volumes:
       - kaljuvee-data:/app/data
-    ports:
-      - "5011:5011"
+    # Do NOT publish a host port on Coolify — its Traefik proxy routes the domain
+    # to this internal port. Publishing 5011 on the host collides with other apps.
+    expose:
+      - "5011"
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:5011/health').read()"]
       interval: 30s
