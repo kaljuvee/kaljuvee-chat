@@ -1003,3 +1003,35 @@
   border-radius: 4px;
   padding: 1px 6px;
 }
+
+/* CV download buttons (chat response) */
+.cv-downloads {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 12px 0;
+}
+.cv-download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 16px;
+  border-radius: 8px;
+  background: #111;
+  color: #fff !important;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid #111;
+  transition: all .15s;
+}
+.cv-download-btn:hover { background: #fff; color: #111 !important; }
+.cv-dl-ic {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(255,255,255,.18);
+}
+.cv-download-btn:hover .cv-dl-ic { background: #111; color: #fff; }

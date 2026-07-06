@@ -31,12 +31,12 @@ ASK_JULIAN = AgentSpec(
     description="A grounded assistant that answers questions about Julian Kaljuvee's "
                 "experience, skills, projects and company using his CV as the source of truth.",
     example_prompts=(
+        "Can you give me your CV?",
         "Give me a 30-second summary of Julian's background.",
         "What's his experience with GenAI and LLM systems?",
         "Has he worked in private equity or financial services?",
         "What did he build at Microsoft and Indurent?",
         "Tell me about his company, Predictive Labs.",
-        "How do I get in touch with Julian?",
     ),
 )
 

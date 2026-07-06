@@ -228,6 +228,25 @@ def register_chat_routes(rt):
         spec = by_slug(agent_slug)
 
         _persist_message(session_id, "user", user_msg)
+
+        # CV request → return HTML with PDF + Word download buttons (no LLM call).
+        from cv_export import is_cv_request, cv_response_html
+        if is_cv_request(agent_router.strip_prefix(user_msg)):
+            html = cv_response_html()
+            _persist_message(session_id, "assistant", html, agent_slug=agent_slug)
+
+            async def cv_stream():
+                yield sse.event("session", {"sid": session_id})
+                yield sse.event(sse.AGENT_ROUTE, {
+                    "slug": agent_slug,
+                    "agent": spec.name if spec else agent_slug,
+                    "icon": spec.icon if spec else "*",
+                })
+                yield sse.event(sse.TOKEN, {"text": html})
+                yield sse.event(sse.DONE, {"slug": agent_slug})
+
+            return StreamingResponse(cv_stream(), media_type="text/event-stream")
+
         history = _session_messages(session_id)[:-1]
         stripped_msg = agent_router.strip_prefix(user_msg)
 

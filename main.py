@@ -30,6 +30,11 @@ def index():
 from chat.routes import register_chat_routes
 register_chat_routes(rt)
 
+# --- CV download routes (/cv.pdf, /cv.docx) ---
+
+from cv_export import register_cv_routes
+register_cv_routes(rt)
+
 # --- Auth routes ---
 
 from auth.routes import register_auth_routes
