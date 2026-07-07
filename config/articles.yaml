@@ -9,8 +9,13 @@
 rss_feeds: []
 #   - https://yourblog.example.com/feed.xml
 
-# Talks & writing (links are the slide decks referenced from Julian's CV).
+# Talks & writing. LinkedIn articles first, then talks (slide decks from the CV).
 articles:
+  - title: "Articles by Julian on LinkedIn"
+    url: "https://www.linkedin.com/in/juliankaljuvee/recent-activity/articles/"
+    date: "2026-07-07"
+    tags: [LinkedIn]
+
   - title: "RAG Enterprise Search"
     url: "https://drive.google.com/file/d/1D6tTz6kAB0iR-e82BaUF-CTIJYkQSOpG/view"
     date: "2025-06-01"

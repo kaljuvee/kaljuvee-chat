@@ -127,7 +127,8 @@
   min-height: 48px;
 }
 .chat-header-left { display: flex; align-items: center; gap: 8px; }
-.chat-header-brand { display: flex; align-items: center; gap: 8px; justify-self: center; }
+/* Header brand is MOBILE-ONLY (desktop shows the brand in the left pane + welcome hero) */
+.chat-header-brand { display: none; align-items: center; gap: 8px; grid-column: 2; justify-self: center; }
 .chat-header-logo {
   width: 26px; height: 26px; border-radius: 50%;
   object-fit: cover; border: 1px solid var(--border);
@@ -135,7 +136,7 @@
 .chat-header-title { font-size: 14px; font-weight: 600; color: var(--ink); white-space: nowrap; }
 .chat-header-dot { color: var(--ink-dim); }
 .chat-header-agent { font-size: 12px; color: var(--ink-muted); }
-.chat-header-actions { display: flex; gap: 4px; justify-self: end; }
+.chat-header-actions { display: flex; gap: 4px; grid-column: 3; justify-self: end; }
 .header-action-btn {
   padding: 4px 10px;
   font-size: 11px;
@@ -236,6 +237,7 @@
   color: var(--ink);
   border-radius: 8px;
   flex-shrink: 0;
+  grid-column: 1;
   justify-self: start;
 }
 .mobile-menu-btn:hover { background: var(--bg-alt); }
@@ -785,11 +787,13 @@
   .chat-header { padding: 8px 12px; }
   .chat-form { padding: 8px 12px 12px; }
 
-  /* The header already shows the brand — drop the big welcome avatar + duplicate
-     "Ask Julian" title on mobile (kept on desktop). */
-  .welcome-avatar { display: none; }
+  /* Mobile: show the brand in the HEADER (left pane is a drawer here), and drop the
+     big welcome avatar + duplicate "Ask Julian" title from the chat pane. */
+  .chat-header-brand { display: flex; }
+  .welcome-hero .welcome-avatar { display: none; }   /* specificity beats the base rule */
   .welcome-title { display: none; }
   .welcome-hero { padding: 28px 18px; }
+  .mobile-menu-btn { display: inline-flex; width: 40px; height: 40px; }
 
   /* Hamburger is inline in the header grid (no fixed overlap). Show it on mobile. */
   .mobile-menu-btn { display: inline-flex; }

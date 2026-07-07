@@ -244,11 +244,11 @@ def center_pane(messages=None, current_agent_slug=None):
 
     return Div(
         Div(
-            Button(NotStr('<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>'), cls="mobile-menu-btn", onclick="toggleLeftPane()"),
+            Button(NotStr('<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>'), cls="mobile-menu-btn", onclick="toggleLeftPane()"),
             Div(
                 Img(src=LOGO_IMG, alt="Julian Kaljuvee", cls="chat-header-logo"),
                 Span("Ask Julian", id="current-agent-label", cls="chat-header-title"),
-                cls="chat-header-brand",
+                cls="chat-header-brand",  # shown on mobile only (hidden on desktop via CSS)
             ),
             Div(
                 Button(
