@@ -17,4 +17,5 @@ TOOL_END    = "tool_end"
 ARTIFACT    = "artifact_show"
 DONE        = "done"
 ERROR       = "error"
-GATE        = "gate"  # sign-in required (anonymous free-query limit reached)
+GATE        = "gate"   # sign-in required (anonymous free-query limit reached)
+CHART       = "chart"  # inline Plotly chart {name, title, figure}

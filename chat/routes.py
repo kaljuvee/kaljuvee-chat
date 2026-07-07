@@ -294,6 +294,17 @@ def register_chat_routes(rt):
                 db.commit()
             finally:
                 db.close()
+
+            # Stream any relevant chart(s) inline, after the text answer.
+            try:
+                from charts import detect_charts, build_chart
+                for cname in detect_charts(stripped_msg):
+                    c = build_chart(cname)
+                    if c:
+                        yield sse.event(sse.CHART, c)
+            except Exception as e:
+                log.warning("chart emit failed: %s", e)
+
             yield sse.event(sse.DONE, {"slug": agent_slug})
 
         return StreamingResponse(event_stream(), media_type="text/event-stream")

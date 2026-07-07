@@ -34,6 +34,30 @@
         if (m) m.scrollTop = m.scrollHeight;
     }
 
+    // Render a Plotly chart inline, below the assistant's message bubble.
+    function renderChart(bubble, payload) {
+        if (!payload || !payload.figure) return;
+        const host = $("#messages");
+        if (!host) return;
+        const card = document.createElement("div");
+        card.className = "chat-chart";
+        if (payload.title) {
+            const cap = document.createElement("div");
+            cap.className = "chat-chart-title";
+            cap.textContent = payload.title;
+            card.appendChild(cap);
+        }
+        const plot = document.createElement("div");
+        plot.className = "chat-chart-plot";
+        card.appendChild(plot);
+        host.appendChild(card);
+        if (window.Plotly) {
+            Plotly.newPlot(plot, payload.figure.data, payload.figure.layout,
+                           { responsive: true, displayModeBar: false });
+        }
+        scrollMessagesBottom();
+    }
+
     function renderMarkdownLite(text) {
         if (window.marked) return marked.parse(text);
         return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
@@ -137,6 +161,8 @@
                         bubble.textContent = "Error: " + (payload.message || "unknown");
                     } else if (type === "session") {
                         if (payload.sid) setSid(payload.sid);
+                    } else if (type === "chart") {
+                        renderChart(bubble, payload);
                     } else if (type === "done") {
                         hideThinking();
                         if (bubble) bubble.classList.remove("streaming");

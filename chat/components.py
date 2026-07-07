@@ -189,6 +189,11 @@ def left_pane(user_email=None, sessions=None, current_sid=""):
                 href="/app", cls="brand",
             ),
             Button("＋ New chat", onclick="newChat()", cls="new-chat-btn"),
+            A(
+                NotStr('<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>'),
+                Span("Visuals", cls="visuals-link-text"),
+                href="/visuals", cls="visuals-link",
+            ),
             cls="px-3 pt-3",
         ),
         Div(
