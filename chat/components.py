@@ -266,7 +266,7 @@ def center_pane(messages=None, current_agent_slug=None):
                 ),
                 Button(
                     NotStr('<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>'),
-                    id="artifact-btn", onclick="toggleArtifactPane()", cls="header-icon-btn", title="Articles",
+                    id="artifact-btn", onclick="toggleArtifactPane()", cls="header-icon-btn", title="Research & Talks",
                 ),
                 cls="chat-header-actions",
             ),
@@ -332,8 +332,8 @@ def right_pane():
     return Div(
         Div(
             Div(
-                H4("Articles & writing", cls="artifact-title"),
-                Span("Latest posts by Julian", cls="artifact-subtitle"),
+                H4("Research and Talks", cls="artifact-title"),
+                Span("Articles & talks by Julian", cls="artifact-subtitle"),
             ),
             Button(NotStr('<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>'), cls="right-pane-close", onclick="toggleArtifactPane()"),
             cls="artifact-header",
