@@ -7,7 +7,8 @@ stays factual and points visitors to the right links and contact details.
 
 Built with **FastHTML** (server-rendered hypermedia + SSE streaming), a single **LangGraph**
 agent, and a small **SQLite** database. Provider-agnostic LLM layer (xAI Grok by default;
-OpenAI or Anthropic with one env change).
+OpenAI or Anthropic with one env change). You can **type or talk** — a voice mode streams
+spoken answers back through x.ai's realtime agent.
 
 ![Ask Julian — demo](screenshots/kaljuvee-chat-demo.gif)
 
@@ -60,8 +61,15 @@ See **[docs/architecture_readme.md §4](docs/architecture_readme.md)** for the d
   Protects against bots and token drain. Tunable via `FREE_QUERY_LIMIT`.
 - **Left nav** — portrait logo, sample questions, profile links (LinkedIn, personal site,
   GitHub, Predictive Labs + org), and selected projects grouped by sector.
-- **Right pane** — a tag-filterable Articles/writing feed from `config/articles.yaml`
+- **Voice mode** — tap the mic to talk instead of type. The browser streams PCM16 mic audio
+  over a WebSocket proxy (`/ws/voice`) to **x.ai's realtime agent**, which streams speech and
+  live transcripts back into the chat. The proxy holds the API key server-side; the browser
+  never sees it. Enabled when `XAI_VOICE_AGENT_ID` is set (falls back to a default agent).
+- **Right pane** — a tag-filterable "Research and Talks" feed from `config/articles.yaml`
   (append one line per post; optional RSS auto-merge via feedparser).
+- **Visuals** — a shareable `/visuals` dashboard of Plotly charts (skills radar, career
+  timeline, tech stack) rendered inside the 3-pane shell with `?tab=` deep links; the chat can
+  also stream a relevant chart inline when you ask about skills or experience.
 - **Auth** — email/password with verification + reset, and Google OAuth. Chat history is
   saved per user and individual conversations can be shared via a link.
 
@@ -78,7 +86,11 @@ chat/
   routes.py             /app, SSE /app/chat (with the free-query gate), share
   components.py         3-pane UI: left nav, center chat, right articles
   layout.py             page shell / <head> / branding
-  sse.py                SSE event helpers (incl. GATE)
+  sse.py                SSE event helpers (incl. GATE, CHART)
+voice.py                /ws/voice WebSocket proxy: browser mic ↔ x.ai realtime agent
+charts.py               Plotly chart builders + inline chart detection
+visuals.py              /visuals dashboard (shareable ?tab= deep links)
+cv_export.py            /cv/pdf + /cv/docx download endpoints
 auth/                   register/login/verify/reset + Google OAuth (SQLite)
 prompts/
   system/ask_julian.md  persona + rules
@@ -91,7 +103,7 @@ utils/
   config.py             env-driven Settings
   session.py            auth + anon query counter helpers
 db.py                   SQLite engine + init (3 tables)
-static/                 app.css, chat.js
+static/                 app.css, chat.js, voice.js (mic capture + playback)
 img/                    portrait (favicon, logo, avatar)
 tests/test_smoke.py     structural smoke tests
 docs/architecture_readme.md   full architecture with Mermaid diagrams
@@ -120,6 +132,7 @@ Key `.env` settings (see `env.sample`):
 |---|---|---|
 | `LLM_PROVIDER` | `xai` (Grok) · `openai` · `anthropic` | `xai` |
 | `XAI_API_KEY` / `OPENAI_API_KEY` / `ANTHROPIC_API_KEY` | provider key | — |
+| `XAI_VOICE_AGENT_ID` | x.ai realtime agent for voice mode (uses `XAI_API_KEY`) | default agent |
 | `FREE_QUERY_LIMIT` | free anonymous queries before sign-in | `3` |
 | `DB_URL` | database URL | `sqlite:///kaljuvee_chat.db` |
 | `SERVICE_URL` | public URL (OAuth redirect + email links) | `https://kaljuvee.chat` |

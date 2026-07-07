@@ -184,7 +184,47 @@ already in place.
 
 ---
 
-## 5. Data Model
+## 5. Voice Mode (talk to Julian)
+
+Visitors can **talk instead of type**. Tapping the mic opens a live voice conversation backed
+by **x.ai's realtime agent**. The browser cannot hold the API key, so a thin **WebSocket
+proxy** (`voice.py`, route `/ws/voice`) bridges the browser and x.ai: it injects the
+`Authorization: Bearer $XAI_API_KEY` header server-side and relays audio and events in both
+directions. The voice agent is **audio-only** (spoken question → spoken answer); typed chat
+still goes through the grounded LangGraph agent in §4.
+
+Audio is PCM16 mono. `static/voice.js` captures the mic (`getUserMedia` → `ScriptProcessorNode`),
+downsamples to 24 kHz, base64-encodes each frame, and streams it up; incoming audio deltas are
+queued and scheduled for gap-free playback, with barge-in (playback stops when the user starts
+speaking). Live user/assistant transcripts are rendered as normal chat bubbles.
+
+```mermaid
+sequenceDiagram
+    participant B as Browser (static/voice.js)
+    participant P as voice.py (/ws/voice proxy)
+    participant X as x.ai realtime agent
+
+    B->>P: WS connect /ws/voice
+    P->>X: WS connect (Bearer XAI_API_KEY)<br/>agent = XAI_VOICE_AGENT_ID
+    P->>X: session.update (pcm16, server_vad)
+    P-->>B: {type: ready}
+    loop while talking
+        B->>P: {type: audio} (base64 PCM16 @ 24kHz)
+        P->>X: input_audio_buffer.append
+        X-->>P: speech_started / transcript / audio deltas
+        P-->>B: user_transcript · assistant_delta · audio
+        B->>B: play audio (barge-in stops on new speech)
+    end
+```
+
+Voice is enabled when `XAI_VOICE_AGENT_ID` is set (it falls back to a default agent id, and
+reuses `XAI_API_KEY`). The proxy route must be registered at the front of the router —
+FastHTML's catch-all host route would otherwise shadow the WebSocket path. Behind a reverse
+proxy (Coolify/Traefik) WebSocket upgrades are forwarded transparently.
+
+---
+
+## 6. Data Model
 
 Only chat auth and history are stored. Everything else (CV, projects, links, articles) is
 file-based content, not database rows.
@@ -224,7 +264,7 @@ erDiagram
 
 ---
 
-## 6. Research & Talks Feed
+## 7. Research & Talks Feed
 
 The right-hand pane renders a tag-filterable feed of Julian's writing. Because LinkedIn
 articles are auth-gated and have no public RSS, the source of truth is a hand-curated YAML
@@ -246,11 +286,12 @@ flowchart TB
 
 ---
 
-## 7. Configuration & Deployment
+## 8. Configuration & Deployment
 
 | Concern | Mechanism |
 |---|---|
 | LLM provider | `LLM_PROVIDER` = `xai` (default) / `openai` / `anthropic` — dispatched in `utils/llm.py` via LangChain |
+| Voice mode | `XAI_VOICE_AGENT_ID` (x.ai realtime agent; reuses `XAI_API_KEY`) — `/ws/voice` proxy in `voice.py` |
 | Free-query limit | `FREE_QUERY_LIMIT` (default 3) |
 | Database | `DB_URL` (default `sqlite:///kaljuvee_chat.db`) |
 | Google sign-in | `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET`; redirect `<SERVICE_URL>/auth/google/callback` |

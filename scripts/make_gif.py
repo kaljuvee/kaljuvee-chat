@@ -21,6 +21,7 @@ BG = (255, 255, 255)
 # (filename, hold duration in ms)
 FRAMES = [
     ("01-welcome.png", 2200),
+    ("09-voice-listening.png", 3200),
     ("02-skills-radar.png", 3200),
     ("03-cv-download.png", 3000),
     ("04-evolution-sankey.png", 3200),
