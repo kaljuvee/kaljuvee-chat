@@ -40,6 +40,11 @@ register_cv_routes(rt)
 from visuals import register_visuals_routes
 register_visuals_routes(rt)
 
+# --- Voice mode (WebSocket proxy to x.ai realtime agent) ---
+
+from voice import register_voice_routes
+register_voice_routes(app)
+
 # --- Auth routes ---
 
 from auth.routes import register_auth_routes

@@ -1118,3 +1118,32 @@
 .viz-tab:hover { background: #F5F5F5; color: var(--ink); }
 .viz-tab.active { background: #111; color: #fff; }
 .messages.visuals-grid { align-content: start; }
+
+/* ── Voice mode ─────────────────────────────────────────────────────── */
+.voice-btn {
+  display: flex; align-items: center; justify-content: center;
+  width: 42px; height: 42px; flex-shrink: 0;
+  background: #fff; color: var(--ink-muted);
+  border: 1px solid var(--border); border-radius: 10px;
+  cursor: pointer; transition: all .15s;
+}
+.voice-btn:hover { border-color: var(--ink); color: var(--ink); }
+.voice-btn.active { background: #DC2626; color: #fff; border-color: #DC2626; }
+
+.voice-panel {
+  display: flex; align-items: center; gap: 12px;
+  margin: 0 24px 8px; padding: 10px 14px;
+  border: 1px solid var(--border); border-radius: 12px; background: #F7F8FA;
+}
+.voice-orb { width: 12px; height: 12px; border-radius: 50%; background: #9CA3AF; flex-shrink: 0; }
+.voice-panel[data-state="listening"] .voice-orb { background: #2563EB; animation: voicePulse 1.2s infinite; }
+.voice-panel[data-state="speaking"]  .voice-orb { background: #10B981; animation: voicePulse .8s infinite; }
+.voice-panel[data-state="thinking"]  .voice-orb { background: #F59E0B; animation: voicePulse 1s infinite; }
+.voice-panel[data-state="error"]     .voice-orb { background: #DC2626; }
+@keyframes voicePulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: .4; transform: scale(1.6); } }
+.voice-status { flex: 1; font-size: 13px; color: var(--ink); font-weight: 500; }
+.voice-stop {
+  padding: 5px 12px; font-size: 12px; font-weight: 600; color: #fff;
+  background: #111; border: none; border-radius: 8px; cursor: pointer;
+}
+.voice-stop:hover { background: #333; }
