@@ -70,7 +70,7 @@ def chat_page(user_email=None, sessions=None, current_sid="",
             id="right-pane-toggle-btn", cls="right-pane-toggle", onclick="toggleArtifactPane()",
         ),
         Script(src="/static/chat.js?v=5"),
-        Script(src="/static/voice.js?v=1"),
+        Script(src="/static/voice.js?v=2"),
         cls="bg-white text-ink font-sans antialiased app",
         **({"data-signed-in": "1"} if user_email else {}),
     )

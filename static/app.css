@@ -1147,3 +1147,18 @@
   background: #111; border: none; border-radius: 8px; cursor: pointer;
 }
 .voice-stop:hover { background: #333; }
+
+/* First-time voice hint */
+.voice-hint {
+  display: flex; align-items: center; gap: 8px;
+  margin: 0 24px 8px; padding: 8px 12px;
+  font-size: 12.5px; line-height: 1.4; color: #374151;
+  background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 10px;
+}
+.voice-hint-ic { font-size: 15px; flex-shrink: 0; }
+.voice-hint strong { color: #1E40AF; font-weight: 600; }
+.voice-hint-x {
+  margin-left: auto; flex-shrink: 0; background: none; border: none;
+  font-size: 18px; line-height: 1; color: #6B7280; cursor: pointer; padding: 0 2px;
+}
+.voice-hint-x:hover { color: #111; }

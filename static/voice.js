@@ -105,15 +105,18 @@
     // ── Session lifecycle ─────────────────────────────────────────────────
     async function startVoice() {
         if (active) return;
+        dismissHint();
         const wh = $("#welcome-hero"); if (wh) wh.style.display = "none";
         showPanel();
+        setStatus("connecting", "Requesting microphone…");
         try {
             stream = await navigator.mediaDevices.getUserMedia({
                 audio: { channelCount: 1, echoCancellation: true, noiseSuppression: true },
             });
         } catch (e) {
-            setStatus("error", "Microphone blocked");
-            hidePanel(); return;
+            setStatus("error", "Microphone blocked — allow access and tap the mic again");
+            setTimeout(hidePanel, 3000);
+            return;
         }
         active = true;
         micCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -178,5 +181,31 @@
         }
     }
 
+    // ── First-time hint near the mic ──────────────────────────────────────
+    function dismissHint() {
+        const h = $("#voice-hint");
+        if (h) h.remove();
+        try { localStorage.setItem("aj_voice_hint", "1"); } catch (e) {}
+    }
+    function maybeShowHint() {
+        try { if (localStorage.getItem("aj_voice_hint")) return; } catch (e) {}
+        const form = $(".chat-form"), btn = $("#voice-btn");
+        if (!form || !btn || !form.parentElement) return;
+        const h = document.createElement("div");
+        h.id = "voice-hint";
+        h.className = "voice-hint";
+        h.innerHTML =
+            '<span class="voice-hint-ic">🎤</span>' +
+            '<span><strong>New — talk to Julian.</strong> Tap the mic to start a voice chat ' +
+            '(your browser will ask to use the microphone).</span>' +
+            '<button class="voice-hint-x" aria-label="Dismiss">&times;</button>';
+        form.parentElement.insertBefore(h, form);
+        h.querySelector(".voice-hint-x").onclick = dismissHint;
+        setTimeout(() => { const x = $("#voice-hint"); if (x) x.remove(); }, 15000);
+    }
+
     window.toggleVoice = () => { active ? stopVoice() : startVoice(); };
+
+    if (document.readyState !== "loading") maybeShowHint();
+    else document.addEventListener("DOMContentLoaded", maybeShowHint);
 })();
