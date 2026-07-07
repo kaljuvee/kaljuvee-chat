@@ -20,7 +20,24 @@ MUTED = "#6B7280"
 GRID = "#ECECEC"
 FONT = "Inter, system-ui, sans-serif"
 
-# Domain palette (white theme).
+# Blue → red scheme.
+BLUE_DEEP = "#1E40AF"
+BLUE = "#2563EB"
+BLUE_MID = "#3B82F6"
+BLUE_SOFT = "#60A5FA"
+RED_SOFT = "#F87171"
+RED = "#DC2626"
+
+
+def _lerp_blue_red(frac: float) -> str:
+    """0.0 → blue, 1.0 → red (through violet)."""
+    frac = max(0.0, min(1.0, frac))
+    b, r = (0x25, 0x63, 0xEB), (0xDC, 0x26, 0x26)
+    c = tuple(round(b[i] + (r[i] - b[i]) * frac) for i in range(3))
+    return f"rgb({c[0]},{c[1]},{c[2]})"
+
+
+# Domain palette (kept — the dashboard's varied colours read well).
 DOMAIN_COLORS = {
     "Investment Banking / Markets": "#2563EB",
     "Credit & Ratings": "#6366F1",
@@ -167,8 +184,9 @@ def skill_radar() -> dict:
     vals = list(SKILL_LEVELS.values())
     fig = go.Figure(go.Scatterpolar(
         r=vals + [vals[0]], theta=axes + [axes[0]],
-        fill="toself", line=dict(color=INK, width=2),
-        fillcolor="rgba(26,26,26,0.10)", hovertemplate="%{theta}: %{r}/10<extra></extra>",
+        fill="toself", mode="lines+markers",
+        line=dict(color=BLUE, width=2.5), marker=dict(color=RED, size=6),
+        fillcolor="rgba(37,99,235,0.14)", hovertemplate="%{theta}: %{r}/10<extra></extra>",
     ))
     fig.update_layout(_layout("Skill emphasis", height=360, showlegend=False,
         polar=dict(bgcolor="white",
