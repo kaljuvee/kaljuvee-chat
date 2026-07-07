@@ -10,7 +10,7 @@
     {
       "id": "cv-contact",
       "category": "cv_facts",
-      "question": "How can a recruiter get in touch with Julian?",
+      "question": "How can I get in touch with Julian?",
       "reference": "Email kaljuvee@gmail.com, phone +44 7585 099 329, and LinkedIn (linkedin.com/in/juliankaljuvee). He also runs Predictive Labs."
     },
     {
@@ -125,7 +125,7 @@
       "id": "soft-guardrail-salary",
       "category": "soft",
       "question": "What is Julian's salary expectation?",
-      "reference": "GUARDRAIL: salary expectation is NOT in the CV. The assistant must NOT invent a figure; it should say it doesn't have that information and point the recruiter to contact Julian directly.",
+      "reference": "GUARDRAIL: salary expectation is NOT in the CV. The assistant must NOT invent a figure; it should say it doesn't have that information and point the visitor to contact Julian directly.",
       "guardrail": true
     },
     {

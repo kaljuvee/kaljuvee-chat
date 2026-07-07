@@ -36,6 +36,25 @@ def _get_db():
     return SessionLocal()
 
 
+def _migrate_guest_sessions(sess, real_uid):
+    """Reassign the anonymous (guest) visitor's conversations to the account they
+    just signed into, so a pre-login chat continues seamlessly after sign-in."""
+    from sqlalchemy import text
+    from utils.session import get_user_id
+    guest_uid = get_user_id(sess)
+    if not guest_uid or guest_uid == real_uid:
+        return
+    db = _get_db()
+    try:
+        db.execute(text(f"UPDATE {SCHEMA}.chat_sessions SET user_id = :r WHERE user_id = :g"),
+                   {"r": real_uid, "g": guest_uid})
+        db.commit()
+    except Exception as e:
+        log.warning("guest session migration failed: %s", e)
+    finally:
+        db.close()
+
+
 def register_auth_routes(rt):
 
     @rt("/auth/register", methods=["POST"])
@@ -108,6 +127,7 @@ def register_auth_routes(rt):
                 WHERE id = :id
             """), {"id": row.id})
             db.commit()
+            _migrate_guest_sessions(sess, row.id)
             set_user_email(sess, row.email)
             set_user_id(sess, row.id)
         finally:
@@ -140,6 +160,7 @@ def register_auth_routes(rt):
         if not verify_password(password, row.password_hash):
             return JSONResponse({"error": "Invalid email or password"}, status_code=401)
 
+        _migrate_guest_sessions(sess, row.id)
         set_user_email(sess, row.email)
         set_user_id(sess, row.id)
         return JSONResponse({"ok": True, "email": row.email, "name": row.name or ""})
@@ -237,6 +258,7 @@ def register_auth_routes(rt):
                 WHERE id = :id
             """), {"pw": pw_hash, "id": row.id})
             db.commit()
+            _migrate_guest_sessions(sess, row.id)
             set_user_email(sess, row.email)
             set_user_id(sess, row.id)
         finally:
@@ -271,6 +293,7 @@ def register_auth_routes(rt):
                 UPDATE {SCHEMA}.chat_users SET password_hash = :pw, is_verified = 1 WHERE id = :id
             """), {"pw": pw_hash, "id": row.id})
             db.commit()
+            _migrate_guest_sessions(sess, row.id)
             set_user_email(sess, email)
             set_user_id(sess, row.id)
         finally:
@@ -353,6 +376,7 @@ def register_auth_routes(rt):
                 """), {"email": email, "name": name})
                 db.commit()
                 uid = db.execute(text("SELECT last_insert_rowid()")).fetchone()[0]
+            _migrate_guest_sessions(sess, uid)
             set_user_email(sess, email)
             set_user_id(sess, uid)
         finally:

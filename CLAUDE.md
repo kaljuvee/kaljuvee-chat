@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-**Ask Julian** (kaljuvee.chat) — a recruiter-facing AI chatbot that answers questions about
+**Ask Julian** (kaljuvee.chat) — a personal AI chatbot that answers questions about
 Julian Kaljuvee's career, grounded in his CV. Built with **FastHTML** (server-rendered
 hypermedia + SSE), a single **LangGraph** agent, and **SQLite**. It was repurposed from a car
 app (`carhero`); if you find stray car-domain references, they are vestigial — this is a CV bot.

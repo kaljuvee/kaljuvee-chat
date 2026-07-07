@@ -27,7 +27,7 @@ ASK_JULIAN = AgentSpec(
     category="career",
     icon="●",
     prefix="",
-    one_liner="Answers recruiters' questions about Julian Kaljuvee's career and work.",
+    one_liner="Answers questions about Julian Kaljuvee's career and work.",
     description="A grounded assistant that answers questions about Julian Kaljuvee's "
                 "experience, skills, projects and company using his CV as the source of truth.",
     example_prompts=(

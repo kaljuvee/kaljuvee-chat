@@ -41,7 +41,7 @@ def test_anon_query_counter():
     for i in range(1, 4):
         assert increment_anon_query_count(sess) == i
     assert get_anon_query_count(sess) == 3
-    set_user_email(sess, "recruiter@example.com")
+    set_user_email(sess, "visitor@example.com")
     assert is_signed_in(sess)
 
 

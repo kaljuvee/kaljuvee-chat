@@ -1,7 +1,7 @@
 # Ask Julian — Evals
 
-Automated quality checks for the recruiter-facing CV chatbot. Each case is a real
-recruiter question; the live `ask_julian` agent answers it, and a **deepeval GEval**
+Automated quality checks for the personal CV chatbot. Each case is a real
+user question; the live `ask_julian` agent answers it, and a **deepeval GEval**
 LLM judge (running on the same provider as the app — xAI Grok by default) scores the
 answer on three metrics.
 

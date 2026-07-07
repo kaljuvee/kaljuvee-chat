@@ -31,7 +31,7 @@ python -m evals.run_eval                     # full suite → eval/eval-results.
 python -m evals.run_eval --category technical --limit 5
 ```
 
-22 recruiter-question cases across cv_facts / technical / experience_years / career / soft
+22 question cases across cv_facts / technical / experience_years / career / soft
 (incl. guardrails). Each live answer is scored on Groundedness / Correctness / Relevancy by a
 Grok judge (`evals/grok_judge.py`). Baseline ≈ 82% pass. See `evals/README.md`.
 

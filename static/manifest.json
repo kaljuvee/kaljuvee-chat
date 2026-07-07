@@ -1,7 +1,7 @@
 {
   "name": "Ask Julian",
   "short_name": "Ask Julian",
-  "description": "An AI assistant for recruiters to explore Julian Kaljuvee's career, skills and projects.",
+  "description": "An AI assistant that answers questions about Julian Kaljuvee's career, skills and projects.",
   "start_url": "/app",
   "display": "standalone",
   "background_color": "#FFFFFF",

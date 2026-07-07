@@ -81,7 +81,7 @@ def _build_metrics(judge):
     relevancy = GEval(
         name="Relevancy",
         criteria=(
-            "Decide whether the Actual Output answers the recruiter's question and stays "
+            "Decide whether the Actual Output answers the user's question and stays "
             "on-topic about Julian, in a clear and professional tone. Additional accurate, "
             "relevant detail about Julian (context, related experience) is HELPFUL and must "
             "NOT be penalised. Only score low if the output fails to answer the question, "

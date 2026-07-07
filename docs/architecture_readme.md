@@ -1,6 +1,6 @@
 # Ask Julian — Architecture
 
-**Ask Julian** (kaljuvee.chat) is a personal, recruiter-facing AI chatbot that answers
+**Ask Julian** (kaljuvee.chat) is a personal AI chatbot that answers
 questions about Julian Kaljuvee's career, skills and projects. Answers are **grounded in the
 CV** — the full CV plus curated facts are injected into the system prompt, so the assistant
 stays factual rather than relying on retrieval or model memory.
@@ -21,7 +21,7 @@ request time is the LLM provider.
 
 ```mermaid
 flowchart TB
-    USER(["Recruiter (browser)"])
+    USER(["Visitor (browser)"])
 
     subgraph Server["FastHTML process (main.py, port 5011)"]
         IDX["/  →  redirect to /app<br/>main.py"]

@@ -2,7 +2,7 @@
 
 These are canonical facts to supplement the CV. Use them to answer questions about
 Julian's company, open-source work, and selected projects. Prefer these links when a
-recruiter asks "where can I see your work / profile / company".
+someone asks "where can I see your work / profile / company".
 
 ## Canonical links
 

@@ -785,6 +785,12 @@
   .chat-header { padding: 8px 12px; }
   .chat-form { padding: 8px 12px 12px; }
 
+  /* The header already shows the brand — drop the big welcome avatar + duplicate
+     "Ask Julian" title on mobile (kept on desktop). */
+  .welcome-avatar { display: none; }
+  .welcome-title { display: none; }
+  .welcome-hero { padding: 28px 18px; }
+
   /* Hamburger is inline in the header grid (no fixed overlap). Show it on mobile. */
   .mobile-menu-btn { display: inline-flex; }
 

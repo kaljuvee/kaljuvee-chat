@@ -1,9 +1,9 @@
 # Ask Julian — kaljuvee.chat
 
-A personal, recruiter-facing AI chatbot that answers questions about **Julian Kaljuvee's**
+A personal AI chatbot that answers questions about **Julian Kaljuvee's**
 career, skills, experience and projects. Answers are **grounded in Julian's CV** (`docs/`) —
 the full CV plus a curated facts file are injected into the system prompt, so the assistant
-stays factual and points recruiters to the right links and contact details.
+stays factual and points visitors to the right links and contact details.
 
 Built with **FastHTML** (server-rendered hypermedia + SSE streaming), a single **LangGraph**
 agent, and a small **SQLite** database. Provider-agnostic LLM layer (xAI Grok by default;
@@ -17,7 +17,7 @@ OpenAI or Anthropic with one env change).
 
 ```mermaid
 flowchart LR
-    USER(["Recruiter"]) -->|HTTPS| APP["FastHTML process<br/>:5011 · /app 3-pane chat + SSE"]
+    USER(["Visitor"]) -->|HTTPS| APP["FastHTML process<br/>:5011 · /app 3-pane chat + SSE"]
     APP --> GATE{{"Free-query gate<br/>3 anon → sign in"}}
     GATE --> AGENT["LangGraph agent (ask_julian)<br/>grounded system prompt, no tools"]
     AGENT -->|CV + facts| PROMPT["prompts/shared/cv.md<br/>career_facts.md"]
@@ -34,7 +34,7 @@ flowchart LR
   facts (`prompts/shared/career_facts.md`) are composed into one system prompt. Factual,
   deterministic, cheap; updates are a single file edit.
 - **"Ask Julian" persona** — neutral, third-person assistant with guardrails: refuses
-  off-topic requests and prompt-injection, and directs recruiters to contact/links.
+  off-topic requests and prompt-injection, and directs visitors to contact/links.
 - **3-free-query gate** — anonymous visitors get 3 free questions (session-cookie counter),
   then must sign in to continue. Any sign-in (email/password or Google) unlocks unlimited.
   Protects against bots and token drain. Tunable via `FREE_QUERY_LIMIT`.

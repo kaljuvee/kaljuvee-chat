@@ -37,7 +37,7 @@ def _head(title: str = "Ask Julian") -> Head:
         Meta(name="viewport", content="width=device-width, initial-scale=1, viewport-fit=cover"),
         Meta(name="theme-color", content="#FFFFFF"),
         Meta(name="description",
-             content="Ask Julian — an AI assistant for recruiters to explore Julian Kaljuvee's career, skills and projects."),
+             content="Ask Julian — an AI assistant that answers questions about Julian Kaljuvee's career, skills and projects."),
         Meta(name="apple-mobile-web-app-capable", content="yes"),
         Link(rel="icon", href=FAVICON),
         Link(rel="apple-touch-icon", href=FAVICON),
@@ -68,8 +68,9 @@ def chat_page(user_email=None, sessions=None, current_sid="",
             Span("Articles", cls="toggle-label"),
             id="right-pane-toggle-btn", cls="right-pane-toggle", onclick="toggleArtifactPane()",
         ),
-        Script(src="/static/chat.js?v=3"),
+        Script(src="/static/chat.js?v=4"),
         cls="bg-white text-ink font-sans antialiased app",
+        **({"data-signed-in": "1"} if user_email else {}),
     )
     return Html(_head("Ask Julian"), body)
 

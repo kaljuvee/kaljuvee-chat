@@ -115,6 +115,11 @@
                         if (bubble) hideThinking();
                         addBubble("assistant", payload.message ||
                             "Please sign in to continue chatting.");
+                        // Preserve the pending question + session across the sign-in reload.
+                        try {
+                            sessionStorage.setItem("aj_pending_q", msg);
+                            if (currentSessionId) sessionStorage.setItem("aj_pending_sid", currentSessionId);
+                        } catch (e) {}
                         showSignIn();
                     } else if (type === "agent_route") {
                         bubble = addBubble("assistant", "");
@@ -256,6 +261,25 @@
         const ab = $("#artifact-btn");
         if (ab) ab.classList.add("active");
     }
+
+    // Restore a question the visitor asked right before the sign-in gate.
+    (function restorePending() {
+        let q = null;
+        try { q = sessionStorage.getItem("aj_pending_q"); } catch (e) {}
+        if (!q) return;
+        try {
+            sessionStorage.removeItem("aj_pending_q");
+            sessionStorage.removeItem("aj_pending_sid");
+        } catch (e) {}
+        const ta = $("#chat-input");
+        if (ta) { ta.value = q; if (typeof autoResize === "function") autoResize(ta); }
+        // If they're now signed in, continue the conversation automatically.
+        if (document.body.dataset.signedIn === "1") {
+            const wh = $("#welcome-hero");
+            if (wh) wh.style.display = "none";
+            sendMessage(null);
+        }
+    })();
 
     window.sendMessage = sendMessage;
 })();

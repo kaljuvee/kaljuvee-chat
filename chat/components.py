@@ -234,10 +234,10 @@ def center_pane(messages=None, current_agent_slug=None):
 
     welcome = Div(
         Img(src=LOGO_IMG, alt="Julian Kaljuvee", cls="welcome-avatar"),
-        H2("Ask Julian", cls="text-2xl font-display font-bold mb-1"),
-        P("An AI assistant for recruiters — ask anything about Julian Kaljuvee's "
+        H2("Ask Julian", cls="welcome-title text-2xl font-display font-bold mb-1"),
+        P("An AI assistant that never sleeps — ask anything about Julian Kaljuvee's "
           "career, skills, projects and experience.",
-          cls="text-sm text-gray-500 max-w-md mx-auto"),
+          cls="welcome-sub text-sm text-gray-500 max-w-md mx-auto"),
         id="welcome-hero", cls="welcome-hero",
         style="" if not messages else "display:none",
     )
