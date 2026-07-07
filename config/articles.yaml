@@ -1,29 +1,42 @@
-# Articles / writing feed shown in the right-hand pane of kaljuvee.chat.
+# Articles / talks / writing feed shown in the right-hand pane of kaljuvee.chat.
 #
-# Add one entry per article you publish and it appears instantly on next page load
-# (no redeploy). LinkedIn articles can't be auto-fetched, so list them here.
+# Add one entry per item and it appears instantly on next page load (no redeploy).
+# Each entry: title, url, date (YYYY-MM-DD, used for sorting), tags (power the filter).
 #
-# Each entry:
-#   title: "Headline of the article"
-#   url:   "https://www.linkedin.com/pulse/..."
-#   date:  "2025-06-01"          # YYYY-MM-DD (optional, used for sorting)
-#   tags:  [RAG, Enterprise, Search]   # optional; power the tag filter
-#
-# Optional: point `rss_feeds` at any RSS/Atom source (Medium, Substack, Ghost,
-# a Jekyll blog's /feed.xml) and its items are merged in and de-duplicated
-# automatically, so new posts there show up with zero manual edits.
+# Optional: point `rss_feeds` at any RSS/Atom source (Medium/Substack/Ghost/Jekyll)
+# and its items are merged in and de-duplicated by URL automatically.
 
 rss_feeds: []
 #   - https://yourblog.example.com/feed.xml
 
+# Talks & writing (links are the slide decks referenced from Julian's CV).
 articles:
-  # --- Seed / examples — replace these with your real articles ---
   - title: "RAG Enterprise Search"
-    url: "https://www.linkedin.com/in/juliankaljuvee/recent-activity/articles/#rag-enterprise-search"
+    url: "https://drive.google.com/file/d/1D6tTz6kAB0iR-e82BaUF-CTIJYkQSOpG/view"
     date: "2025-06-01"
-    tags: [RAG, Enterprise, Search]
+    tags: [RAG, Enterprise Search, GenAI]
 
-  - title: "Estonia AI Meetup — talk"
-    url: "https://www.linkedin.com/in/juliankaljuvee/recent-activity/articles/#estonia-ai-meetup"
+  - title: "Estonia AI Meetup — Mar 2025"
+    url: "https://drive.google.com/file/d/13JnICcz680-qQYO2nYbKN2j-_GTbLmwc/view"
     date: "2025-03-01"
-    tags: [AI, Talks]
+    tags: [AI, Talk, Estonia]
+
+  - title: "Mentastic AI Workshop"
+    url: "https://drive.google.com/file/d/1O4DEEUn_TdcNhliQho6krxv9uUg2ELiY/view"
+    date: "2024-09-01"
+    tags: [AI, Workshop]
+
+  - title: "Estonia AI Meetup — Oct 2023"
+    url: "https://drive.google.com/file/d/1sijZMUOjScN9_3YP_dss4koVRz1gigyW/view"
+    date: "2023-10-01"
+    tags: [AI, Talk, Estonia]
+
+  - title: "Estonia AI Meetup — Jul 2023"
+    url: "https://drive.google.com/file/d/1uPM0acOt4J4kgALTtbRc7VVt6SQrXZQ4/view"
+    date: "2023-07-01"
+    tags: [AI, Talk, Estonia]
+
+  - title: "Data Scrum — Alternative Data"
+    url: "https://drive.google.com/file/d/1B_5dJg_OqhuNFohvm6huWSt2g3HCmOgP/view"
+    date: "2019-09-01"
+    tags: [Alternative Data, Talk]

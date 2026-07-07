@@ -246,11 +246,15 @@
         if (window.marked) b.innerHTML = marked.parse(b.textContent);
     });
 
+    // Right (Articles) pane: open by default on desktop, collapsed on mobile.
     if (window.innerWidth <= 768) {
         const rp = $("#right-pane");
         if (rp) rp.classList.remove("open");
         const app = $(".app");
         if (app) app.classList.add("pane-closed");
+    } else {
+        const ab = $("#artifact-btn");
+        if (ab) ab.classList.add("active");
     }
 
     window.sendMessage = sendMessage;

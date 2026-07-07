@@ -237,18 +237,18 @@ def center_pane(messages=None, current_agent_slug=None):
         H2("Ask Julian", cls="text-2xl font-display font-bold mb-1"),
         P("An AI assistant for recruiters — ask anything about Julian Kaljuvee's "
           "career, skills, projects and experience.",
-          cls="text-sm text-gray-500 mb-6 max-w-md mx-auto"),
-        Div(*sample_cards, id="sample-cards-row", cls="sample-cards-row"),
+          cls="text-sm text-gray-500 max-w-md mx-auto"),
         id="welcome-hero", cls="welcome-hero",
         style="" if not messages else "display:none",
     )
 
     return Div(
         Div(
+            Button(NotStr('<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>'), cls="mobile-menu-btn", onclick="toggleLeftPane()"),
             Div(
-                Button(NotStr('<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>'), cls="mobile-menu-btn", onclick="toggleLeftPane()"),
+                Img(src=LOGO_IMG, alt="Julian Kaljuvee", cls="chat-header-logo"),
                 Span("Ask Julian", id="current-agent-label", cls="chat-header-title"),
-                cls="chat-header-left",
+                cls="chat-header-brand",
             ),
             Div(
                 Button(
@@ -276,6 +276,11 @@ def center_pane(messages=None, current_agent_slug=None):
             ),
             Button("→", id="send-btn", type="button", onclick="sendMessage(event)", cls="send-btn"),
             cls="chat-form",
+        ),
+        # Persistent quick-question chips below the input — always visible, incl. mobile.
+        Div(
+            Div(*sample_cards, id="sample-cards-row", cls="sample-cards-row"),
+            cls="sample-cards",
         ),
         Script(json.dumps({a.slug: list(a.example_prompts) for a in AGENTS}),
                id="agent-prompts-data", type="application/json"),
@@ -329,5 +334,6 @@ def right_pane():
             cls="artifact-header",
         ),
         body,
-        id="right-pane", cls="right-pane",
+        # Open by default on desktop; chat.js collapses it on mobile at load.
+        id="right-pane", cls="right-pane open",
     )

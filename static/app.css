@@ -118,18 +118,24 @@
 }
 
 .chat-header {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;   /* hamburger | centered brand | actions */
   align-items: center;
-  justify-content: space-between;
+  gap: 8px;
   padding: 10px 16px;
   border-bottom: 1px solid var(--border);
   min-height: 48px;
 }
 .chat-header-left { display: flex; align-items: center; gap: 8px; }
-.chat-header-title { font-size: 14px; font-weight: 600; color: var(--ink); }
+.chat-header-brand { display: flex; align-items: center; gap: 8px; justify-self: center; }
+.chat-header-logo {
+  width: 26px; height: 26px; border-radius: 50%;
+  object-fit: cover; border: 1px solid var(--border);
+}
+.chat-header-title { font-size: 14px; font-weight: 600; color: var(--ink); white-space: nowrap; }
 .chat-header-dot { color: var(--ink-dim); }
 .chat-header-agent { font-size: 12px; color: var(--ink-muted); }
-.chat-header-actions { display: flex; gap: 4px; }
+.chat-header-actions { display: flex; gap: 4px; justify-self: end; }
 .header-action-btn {
   padding: 4px 10px;
   font-size: 11px;
@@ -221,8 +227,8 @@
   display: none;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   padding: 0;
   background: none;
   border: none;
@@ -230,6 +236,7 @@
   color: var(--ink);
   border-radius: 8px;
   flex-shrink: 0;
+  justify-self: start;
 }
 .mobile-menu-btn:hover { background: var(--bg-alt); }
 
@@ -245,25 +252,35 @@
   padding: 48px 16px;
 }
 
+/* Persistent quick-question bar below the input (always visible, incl. mobile) */
+.sample-cards {
+  flex-shrink: 0;
+  padding: 8px 16px 12px;
+  border-top: 1px solid var(--border);
+  background: #fff;
+}
 .sample-cards-row {
   display: flex;
-  flex-wrap: wrap;
   gap: 8px;
-  justify-content: center;
-  margin-top: 12px;
+  overflow-x: auto;
+  scrollbar-width: none;           /* Firefox */
+  -webkit-overflow-scrolling: touch;
 }
+.sample-cards-row::-webkit-scrollbar { display: none; }
 .sample-card {
-  padding: 8px 14px;
-  font-size: 12px;
+  flex: 0 0 auto;
+  padding: 7px 14px;
+  font-size: 12.5px;
   color: var(--ink-muted);
-  background: var(--bg);
+  background: #F7F7F7;
   border: 1px solid var(--border);
   border-radius: 20px;
   cursor: pointer;
-  max-width: 280px;
-  text-align: left;
+  white-space: nowrap;
+  transition: all .12s;
 }
-.sample-card:hover { border-color: var(--ink); color: var(--ink); }
+.sample-card:hover { border-color: var(--ink); color: var(--ink); background: #EEF0F2; }
+.sample-card-text { display: block; }
 
 .msg { margin-bottom: 16px; max-width: 720px; }
 .msg-user { margin-left: auto; }
@@ -768,11 +785,11 @@
   .chat-header { padding: 8px 12px; }
   .chat-form { padding: 8px 12px 12px; }
 
-  /* Keep hamburger clickable above right pane */
-  .mobile-menu-btn { position: fixed; top: 8px; left: 8px; z-index: 65; background: var(--bg); }
+  /* Hamburger is inline in the header grid (no fixed overlap). Show it on mobile. */
+  .mobile-menu-btn { display: inline-flex; }
 
-  /* Hide desktop canvas button, keep share/copy */
-  #artifact-btn { display: none; }
+  /* Keep the Articles toggle available on mobile so the pane can be opened */
+  #artifact-btn { display: inline-flex; }
 }
 
 /* -- Market Map tabs -- */
