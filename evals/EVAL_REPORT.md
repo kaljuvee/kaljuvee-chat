@@ -1,4 +1,4 @@
-# Ask Julian — Eval Report
+# Talk to Julian — Eval Report
 
 - Generated: 2026-07-06T20:15:39.989476+00:00
 - Judge: `GrokJudge(grok-4-1-fast-reasoning)` · Agent: `grok-4-1-fast-reasoning` · Threshold: 0.7

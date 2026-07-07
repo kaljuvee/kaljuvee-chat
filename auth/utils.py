@@ -36,7 +36,7 @@ def send_verification_email(email: str, token: str, name: str = ""):
 <div style="max-width:500px;margin:0 auto;padding:40px 20px;">
   <div style="background:#fff;border-radius:8px;padding:32px;border:1px solid #E5E7EB;">
     <h1 style="font-size:20px;font-weight:700;color:#1A1A1A;margin:0 0 16px;">
-      Welcome to Ask Julian
+      Welcome to Talk to Julian
     </h1>
     <p style="color:#4B5563;font-size:14px;line-height:1.6;margin:0 0 16px;">
       {greeting}

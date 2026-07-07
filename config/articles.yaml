@@ -1,73 +1,91 @@
-# Research & talks feed shown in the right-hand pane of kaljuvee.chat.
+# Right-hand "Research & Talks" feed on kaljuvee.chat.
 #
-# Add one entry per item and it appears instantly on next page load (no redeploy).
-# Each entry: title, url, date (YYYY-MM-DD, used for sorting), tags (power the filter).
+# Items are grouped under section subheadings in the pane. Add one entry per item
+# (it appears on next page load — no redeploy) and give it a `section`.
 #
-# Optional: point `rss_feeds` at any RSS/Atom source (Medium/Substack/Ghost/Jekyll)
-# and its items are merged in and de-duplicated by URL automatically.
+# `rss_feeds` entries are fetched, merged and de-duplicated by URL. Each feed names
+# the section its items land under (e.g. the Medium blog → "Personal Blog"), so new
+# posts show up automatically.
 
-rss_feeds: []
-#   - https://yourblog.example.com/feed.xml
+# Display order of the section subheadings (any section not listed is appended A→Z).
+section_order: [LinkedIn, Talks, Personal Blog]
+
+rss_feeds:
+  - url: "https://medium.com/feed/@kaljuvee"
+    section: "Personal Blog"
+    tags: [Blog]
 
 articles:
   # ── LinkedIn articles (newest first) ──────────────────────────────────
   - title: "A Quick Introduction to Recursive Language Models (RLMs)"
     url: "https://www.linkedin.com/pulse/quick-introduction-recursive-language-models-rlms-julian-kaljuvee-7dabf/"
     date: "2026-06-01"
+    section: "LinkedIn"
     tags: [Research, LLMs]
 
   - title: "Scaling LLM Evaluation with Synthetic Data"
     url: "https://www.linkedin.com/pulse/scaling-llm-evaluation-synthetic-data-julian-kaljuvee-v4d5f"
     date: "2026-05-01"
+    section: "LinkedIn"
     tags: [Research, Evaluation, LLMs]
 
   - title: "Knowledge Graphs + RAG = GraphRAG"
     url: "https://www.linkedin.com/pulse/knowledge-graphs-rag-graphrag-julian-kaljuvee-ryxnc/"
     date: "2026-04-01"
+    section: "LinkedIn"
     tags: [Research, GraphRAG, RAG]
 
   - title: "Return of the Diffusion Models"
     url: "https://www.linkedin.com/pulse/return-diffusion-models-julian-kaljuvee-7zocf"
     date: "2026-03-01"
+    section: "LinkedIn"
     tags: [Research, Diffusion]
 
   - title: "Prismatic Synthesis — How Small Language Models (SLMs) Beat the Giants"
     url: "https://www.linkedin.com/pulse/prismatic-synthesis-how-small-language-models-slms-beat-kaljuvee-gzguf"
     date: "2026-02-01"
+    section: "LinkedIn"
     tags: [Research, SLMs]
 
   - title: "The Return to the Command Line — TUIs and DSLs"
     url: "https://www.linkedin.com/pulse/return-command-line-tuis-dsls-julian-kaljuvee-kvmaf"
     date: "2026-01-01"
+    section: "LinkedIn"
     tags: [Research, TUIs, DSLs]
 
   # ── Talks (slide decks referenced from the CV) ────────────────────────
   - title: "RAG Enterprise Search"
     url: "https://drive.google.com/file/d/1D6tTz6kAB0iR-e82BaUF-CTIJYkQSOpG/view"
     date: "2025-06-01"
+    section: "Talks"
     tags: [Talk, RAG, Enterprise Search]
 
   - title: "Estonia AI Meetup — Mar 2025"
     url: "https://drive.google.com/file/d/13JnICcz680-qQYO2nYbKN2j-_GTbLmwc/view"
     date: "2025-03-01"
+    section: "Talks"
     tags: [Talk, AI]
 
   - title: "Mentastic AI Workshop"
     url: "https://drive.google.com/file/d/1O4DEEUn_TdcNhliQho6krxv9uUg2ELiY/view"
     date: "2024-09-01"
+    section: "Talks"
     tags: [Talk, AI]
 
   - title: "Estonia AI Meetup — Oct 2023"
     url: "https://drive.google.com/file/d/1sijZMUOjScN9_3YP_dss4koVRz1gigyW/view"
     date: "2023-10-01"
+    section: "Talks"
     tags: [Talk, AI]
 
   - title: "Estonia AI Meetup — Jul 2023"
     url: "https://drive.google.com/file/d/1uPM0acOt4J4kgALTtbRc7VVt6SQrXZQ4/view"
     date: "2023-07-01"
+    section: "Talks"
     tags: [Talk, AI]
 
   - title: "Data Scrum — Alternative Data"
     url: "https://drive.google.com/file/d/1B_5dJg_OqhuNFohvm6huWSt2g3HCmOgP/view"
     date: "2019-09-01"
+    section: "Talks"
     tags: [Talk, Alternative Data]

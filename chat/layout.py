@@ -1,4 +1,4 @@
-"""Page wrappers for the Ask Julian chat app."""
+"""Page wrappers for the Talk to Julian chat app."""
 
 from __future__ import annotations
 
@@ -31,13 +31,13 @@ tailwind.config = {
 FAVICON = "/img/julian-kaljuvee-portrait.jpeg"
 
 
-def _head(title: str = "Ask Julian") -> Head:
+def _head(title: str = "Talk to Julian") -> Head:
     return Head(
         Meta(charset="utf-8"),
         Meta(name="viewport", content="width=device-width, initial-scale=1, viewport-fit=cover"),
         Meta(name="theme-color", content="#FFFFFF"),
         Meta(name="description",
-             content="Ask Julian — an AI assistant that answers questions about Julian Kaljuvee's career, skills and projects."),
+             content="Talk to Julian — an AI assistant that answers questions about Julian Kaljuvee's career, skills and projects."),
         Meta(name="apple-mobile-web-app-capable", content="yes"),
         Link(rel="icon", href=FAVICON),
         Link(rel="apple-touch-icon", href=FAVICON),
@@ -74,7 +74,7 @@ def chat_page(user_email=None, sessions=None, current_sid="",
         cls="bg-white text-ink font-sans antialiased app",
         **({"data-signed-in": "1"} if user_email else {}),
     )
-    return Html(_head("Ask Julian"), body)
+    return Html(_head("Talk to Julian"), body)
 
 
 def shared_chat_page(title: str = "Shared Chat", messages=None, agent_slug=None):
@@ -89,7 +89,7 @@ def shared_chat_page(title: str = "Shared Chat", messages=None, agent_slug=None)
         Div(
             Div(
                 Div(title, cls="chat-header-title"),
-                Div(Div("Shared from Ask Julian · kaljuvee.chat", cls="text-sm text-gray-400"),
+                Div(Div("Shared from Talk to Julian · kaljuvee.chat", cls="text-sm text-gray-400"),
                     cls="chat-header-actions"),
                 cls="chat-header",
             ),

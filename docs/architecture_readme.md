@@ -1,6 +1,6 @@
-# Ask Julian — Architecture
+# Talk to Julian — Architecture
 
-**Ask Julian** (kaljuvee.chat) is a personal AI chatbot that answers
+**Talk to Julian** (kaljuvee.chat) is a personal AI chatbot that answers
 questions about Julian Kaljuvee's career, skills and projects. Answers are **grounded in the
 CV** — the full CV plus curated facts are injected into the system prompt, so the assistant
 stays factual rather than relying on retrieval or model memory.

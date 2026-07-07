@@ -1,4 +1,4 @@
-/* Ask Julian — chat client (SSE streaming, 3-pane interactions). */
+/* Talk to Julian — chat client (SSE streaming, 3-pane interactions). */
 
 (() => {
     const $ = (sel) => document.querySelector(sel);
@@ -235,6 +235,12 @@
             const tags = (card.getAttribute("data-tags") || "").split(",");
             card.style.display = (tag === "all" || tags.includes(tag)) ? "" : "none";
         });
+        // Hide a section subheading when its cards are all filtered out.
+        document.querySelectorAll(".article-section").forEach(sec => {
+            const anyVisible = [...sec.querySelectorAll(".article-card")]
+                .some(c => c.style.display !== "none");
+            sec.style.display = anyVisible ? "" : "none";
+        });
     };
 
     // -- Share / copy --
@@ -253,7 +259,7 @@
         const msgs = document.querySelectorAll(".msg");
         const lines = [];
         msgs.forEach(m => {
-            const role = m.classList.contains("msg-user") ? "You" : "Ask Julian";
+            const role = m.classList.contains("msg-user") ? "You" : "Talk to Julian";
             const bubble = m.querySelector(".msg-bubble");
             if (bubble) lines.push(`${role}: ${bubble.textContent.trim()}`);
         });

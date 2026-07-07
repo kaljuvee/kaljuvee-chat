@@ -1,4 +1,4 @@
-"""Registry for the single Ask Julian career assistant.
+"""Registry for the single Talk to Julian career assistant.
 
 Kept as a one-entry registry so the rest of the chat pipeline (router, message
 labels) keeps working unchanged.
@@ -23,7 +23,7 @@ class AgentSpec:
 
 ASK_JULIAN = AgentSpec(
     slug="ask_julian",
-    name="Ask Julian",
+    name="Talk to Julian",
     category="career",
     icon="●",
     prefix="",

@@ -1,4 +1,4 @@
-"""Eval runner for the Ask Julian CV chatbot.
+"""Eval runner for the Talk to Julian CV chatbot.
 
 Calls the live `ask_julian` agent for each case, then scores the answer with
 deepeval GEval metrics judged by our own LLM (Grok). Writes a JSON report to
@@ -197,7 +197,7 @@ def main():
 def _write_markdown(report: dict, path: Path):
     s = report["summary"]
     lines = [
-        "# Ask Julian — Eval Report",
+        "# Talk to Julian — Eval Report",
         "",
         f"- Generated: {report['generated_at']}",
         f"- Judge: `{report['judge_model']}` · Agent: `{report['agent_model']}` · "

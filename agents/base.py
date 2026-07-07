@@ -1,4 +1,4 @@
-"""Build the Ask Julian LangGraph agent, grounded in the CV + curated facts."""
+"""Build the Talk to Julian LangGraph agent, grounded in the CV + curated facts."""
 
 from __future__ import annotations
 

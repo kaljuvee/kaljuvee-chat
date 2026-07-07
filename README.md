@@ -1,4 +1,4 @@
-# Ask Julian — kaljuvee.chat
+# Talk to Julian — kaljuvee.chat
 
 A personal AI chatbot that answers questions about **Julian Kaljuvee's**
 career, skills, experience and projects. Answers are **grounded in Julian's CV** (`docs/`) —
@@ -10,7 +10,7 @@ agent, and a small **SQLite** database. Provider-agnostic LLM layer (xAI Grok by
 OpenAI or Anthropic with one env change). You can **type or talk** — a voice mode streams
 spoken answers back through x.ai's realtime agent.
 
-![Ask Julian — demo](screenshots/kaljuvee-chat-demo.gif)
+![Talk to Julian — demo](screenshots/kaljuvee-chat-demo.gif)
 
 > 📐 Full system design with diagrams: **[docs/architecture_readme.md](docs/architecture_readme.md)**
 
@@ -54,7 +54,7 @@ See **[docs/architecture_readme.md §4](docs/architecture_readme.md)** for the d
 - **Grounded Q&A** — no RAG or vector DB. The whole CV (`prompts/shared/cv.md`) plus curated
   facts (`prompts/shared/career_facts.md`) are composed into one system prompt. Factual,
   deterministic, cheap; updates are a single file edit.
-- **"Ask Julian" persona** — neutral, third-person assistant with guardrails: refuses
+- **"Talk to Julian" persona** — neutral, third-person assistant with guardrails: refuses
   off-topic requests and prompt-injection, and directs visitors to contact/links.
 - **3-free-query gate** — anonymous visitors get 3 free questions (session-cookie counter),
   then must sign in to continue. Any sign-in (email/password or Google) unlocks unlimited.

@@ -1,4 +1,4 @@
-"""Chat routes -- 3-pane UI + SSE streaming for Ask Julian."""
+"""Chat routes -- 3-pane UI + SSE streaming for Talk to Julian."""
 
 from __future__ import annotations
 
@@ -206,7 +206,7 @@ def register_chat_routes(rt):
                 yield sse.event(sse.GATE, {
                     "limit": free_limit,
                     "message": ("You've reached the free preview limit. "
-                                "Please sign in to continue chatting with Ask Julian."),
+                                "Please sign in to continue chatting with Talk to Julian."),
                 })
             return StreamingResponse(gate_stream(), media_type="text/event-stream")
 

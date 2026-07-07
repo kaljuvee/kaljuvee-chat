@@ -1,4 +1,4 @@
-"""Compose the Ask Julian demo screenshots into an animated GIF.
+"""Compose the Talk to Julian demo screenshots into an animated GIF.
 
     python scripts/make_gif.py
 

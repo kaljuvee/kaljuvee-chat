@@ -1,4 +1,4 @@
-# SKILLS.md — Ask Julian (kaljuvee.chat)
+# SKILLS.md — Talk to Julian (kaljuvee.chat)
 
 Operational guide for developing, testing, evaluating and deploying the CV chatbot.
 
@@ -95,7 +95,7 @@ curl -s -o /dev/null -w '%{http_code}\n' https://kaljuvee.chat/cv/pdf   # 200
 | `POSTMARK_API_TOKEN` / `FROM_EMAIL` | no | verify/reset emails |
 
 Secrets live only in `.env` (gitignored) and the Coolify UI — never committed. Google OAuth
-client "Ask Julian (kaljuvee.chat)" lives in the **finespresso** GCP project; redirect URIs
+client "Talk to Julian (kaljuvee.chat)" lives in the **finespresso** GCP project; redirect URIs
 `https://kaljuvee.chat/auth/google/callback` and `http://localhost:5011/auth/google/callback`.
 
 ## 6. Updating content

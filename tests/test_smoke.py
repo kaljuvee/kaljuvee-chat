@@ -1,4 +1,4 @@
-"""Structural smoke tests for the Ask Julian app (no network required)."""
+"""Structural smoke tests for the Talk to Julian app (no network required)."""
 
 import os
 
@@ -13,7 +13,7 @@ def test_db_init():
 def test_system_prompt_is_grounded():
     from agents.base import _load_system_prompt
     p = _load_system_prompt("ask_julian")
-    assert "Ask Julian" in p          # persona
+    assert "Talk to Julian" in p          # persona
     assert "Indurent" in p            # CV injected
     assert "Microsoft" in p
     assert "predictivelabs" in p.lower()  # curated facts injected
@@ -48,7 +48,7 @@ def test_anon_query_counter():
 def test_chat_page_renders_nav():
     from chat.layout import chat_page
     html = str(chat_page(user_email=None, sessions=[], messages=[]))
-    for needle in ["Ask Julian", "julian-kaljuvee-portrait.jpeg",
+    for needle in ["Talk to Julian", "julian-kaljuvee-portrait.jpeg",
                    "linkedin.com/in/juliankaljuvee", "predictivelabs.ai",
                    "liquidround", "Try asking", "New chat"]:
         assert needle in html, f"missing from page: {needle}"

@@ -1,4 +1,4 @@
-"""The Ask Julian agent — grounded CV Q&A, no tools."""
+"""The Talk to Julian agent — grounded CV Q&A, no tools."""
 
 from functools import lru_cache
 

@@ -1,4 +1,4 @@
-"""FastHTML components for the Ask Julian 3-pane chat UI."""
+"""FastHTML components for the Talk to Julian 3-pane chat UI."""
 
 from __future__ import annotations
 
@@ -61,7 +61,7 @@ def signin_overlay():
             ),
             # Login
             Div(
-                P("Sign in to keep chatting with Ask Julian.", cls="text-sm text-gray-500 mb-4"),
+                P("Sign in to keep chatting with Talk to Julian.", cls="text-sm text-gray-500 mb-4"),
                 A(
                     Span(NotStr('<svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z" fill="#4285F4"/><path d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 009 18z" fill="#34A853"/><path d="M3.964 10.71c-.18-.54-.282-1.117-.282-1.71s.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 000 9s.348 1.452.957 2.042l3.007-2.332z" fill="#FBBC05"/><path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 00.957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z" fill="#EA4335"/></svg>'),
                          cls="google-btn-icon"),
@@ -182,7 +182,7 @@ def left_pane(user_email=None, sessions=None, current_sid=""):
             A(
                 Img(src=LOGO_IMG, alt="Julian Kaljuvee", cls="brand-logo"),
                 Div(
-                    Span("Ask Julian", cls="brand-name"),
+                    Span("Talk to Julian", cls="brand-name"),
                     Span("kaljuvee.chat", cls="brand-sub"),
                     cls="brand-text",
                 ),
@@ -239,7 +239,7 @@ def center_pane(messages=None, current_agent_slug=None):
 
     welcome = Div(
         Img(src=LOGO_IMG, alt="Julian Kaljuvee", cls="welcome-avatar"),
-        H2("Ask Julian", cls="welcome-title text-2xl font-display font-bold mb-1"),
+        H2("Talk to Julian", cls="welcome-title text-2xl font-display font-bold mb-1"),
         P("An AI assistant that never sleeps — ask anything about Julian Kaljuvee's "
           "career, skills, projects and experience.",
           cls="welcome-sub text-sm text-gray-500 max-w-md mx-auto"),
@@ -252,7 +252,7 @@ def center_pane(messages=None, current_agent_slug=None):
             Button(NotStr('<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>'), cls="mobile-menu-btn", onclick="toggleLeftPane()"),
             Div(
                 Img(src=LOGO_IMG, alt="Julian Kaljuvee", cls="chat-header-logo"),
-                Span("Ask Julian", id="current-agent-label", cls="chat-header-title"),
+                Span("Talk to Julian", id="current-agent-label", cls="chat-header-title"),
                 cls="chat-header-brand",  # shown on mobile only (hidden on desktop via CSS)
             ),
             Div(
@@ -299,10 +299,26 @@ def center_pane(messages=None, current_agent_slug=None):
 
 # ── Right pane: Articles feed ────────────────────────────────────────────────
 
+def _article_card(a):
+    data_tags = ",".join(t.lower() for t in a["tags"])
+    meta_bits = []
+    if a["date"]:
+        meta_bits.append(Span(a["date"], cls="article-date"))
+    for t in a["tags"]:
+        meta_bits.append(Span(t, cls="article-chip"))
+    return A(
+        Div(a["title"], cls="article-title"),
+        Div(*meta_bits, cls="article-meta") if meta_bits else "",
+        href=a["url"], target="_blank", rel="noopener",
+        cls="article-card", **{"data-tags": data_tags},
+    )
+
+
 def right_pane():
-    from utils.articles import load_articles, all_tags
+    from utils.articles import load_articles, load_sections, all_tags
     articles = load_articles()
     tags = all_tags(articles)
+    sections = load_sections()
 
     tag_chips = [Button("All", cls="article-tag active", onclick="filterArticles('all', this)")]
     tag_chips += [
@@ -310,25 +326,19 @@ def right_pane():
         for t in tags
     ]
 
-    cards = []
-    for a in articles:
-        data_tags = ",".join(t.lower() for t in a["tags"])
-        meta_bits = []
-        if a["date"]:
-            meta_bits.append(Span(a["date"], cls="article-date"))
-        for t in a["tags"]:
-            meta_bits.append(Span(t, cls="article-chip"))
-        cards.append(A(
-            Div(a["title"], cls="article-title"),
-            Div(*meta_bits, cls="article-meta") if meta_bits else "",
-            href=a["url"], target="_blank", rel="noopener",
-            cls="article-card", **{"data-tags": data_tags},
-        ))
+    section_blocks = [
+        Div(
+            H4(name, cls="article-section-title"),
+            *[_article_card(a) for a in items],
+            cls="article-section", **{"data-section": name},
+        )
+        for name, items in sections
+    ]
 
     body = (
         Div(
             Div(*tag_chips, cls="article-tags") if tags else "",
-            Div(*cards, id="article-list", cls="article-list"),
+            Div(*section_blocks, id="article-list", cls="article-list"),
         ) if articles else
         P("No articles yet — check back soon.", cls="text-sm text-gray-400 px-4 py-8 text-center")
     )

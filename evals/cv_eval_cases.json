@@ -1,5 +1,5 @@
 {
-  "description": "Eval cases for the Ask Julian CV chatbot. Each case has a question, a category, and reference facts (from the CV) the answer should reflect. 'guardrail' cases are NOT in the CV and the assistant should decline + point to contacting Julian rather than fabricate.",
+  "description": "Eval cases for the Talk to Julian CV chatbot. Each case has a question, a category, and reference facts (from the CV) the answer should reflect. 'guardrail' cases are NOT in the CV and the assistant should decline + point to contacting Julian rather than fabricate.",
   "cases": [
     {
       "id": "cv-education",

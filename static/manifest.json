@@ -1,6 +1,6 @@
 {
-  "name": "Ask Julian",
-  "short_name": "Ask Julian",
+  "name": "Talk to Julian",
+  "short_name": "Talk to Julian",
   "description": "An AI assistant that answers questions about Julian Kaljuvee's career, skills and projects.",
   "start_url": "/app",
   "display": "standalone",

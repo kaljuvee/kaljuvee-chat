@@ -1,4 +1,4 @@
-"""SQLite database layer for kaljuvee.chat (Ask Julian).
+"""SQLite database layer for kaljuvee.chat (Talk to Julian).
 
 Small, single-file SQLite DB holding only chat auth + history: users, sessions,
 messages. `SCHEMA = "main"` is SQLite's default database name, so schema-qualified

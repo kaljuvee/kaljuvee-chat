@@ -1,1 +1,1 @@
-"""Authentication module for Ask Julian (kaljuvee.chat)."""
+"""Authentication module for Talk to Julian (kaljuvee.chat)."""

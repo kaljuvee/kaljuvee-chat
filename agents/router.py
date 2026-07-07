@@ -1,6 +1,6 @@
 """Single-agent router.
 
-There is only one agent (Ask Julian), so routing is trivial — every message goes
+There is only one agent (Talk to Julian), so routing is trivial — every message goes
 to it. Kept as a module so chat.routes can call route()/strip_prefix() unchanged.
 """
 

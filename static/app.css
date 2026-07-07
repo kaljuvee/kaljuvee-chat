@@ -788,7 +788,7 @@
   .chat-form { padding: 8px 12px 12px; }
 
   /* Mobile: show the brand in the HEADER (left pane is a drawer here), and drop the
-     big welcome avatar + duplicate "Ask Julian" title from the chat pane. */
+     big welcome avatar + duplicate "Talk to Julian" title from the chat pane. */
   .chat-header-brand { display: flex; }
   .welcome-hero .welcome-avatar { display: none; }   /* specificity beats the base rule */
   .welcome-title { display: none; }
@@ -914,7 +914,7 @@
 .fav-btn:hover { color: #DC2626; }
 
 /* ═══════════════════════════════════════════════════════════════════
-   Ask Julian — brand, nav, projects, articles
+   Talk to Julian — brand, nav, projects, articles
    ═══════════════════════════════════════════════════════════════════ */
 
 /* Brand / logo (top-left) */
@@ -1011,6 +1011,18 @@
 .article-tag.active { background: #111; color: #fff; border-color: #111; }
 
 .article-list { display: flex; flex-direction: column; gap: 2px; padding: 8px 10px 16px; }
+.article-section { display: flex; flex-direction: column; gap: 2px; }
+.article-section + .article-section { margin-top: 10px; }
+.article-section-title {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ink-dim);
+  padding: 8px 12px 4px;
+  margin: 0;
+  border-top: 1px solid #F0F1F3;
+}
+.article-section:first-child .article-section-title { border-top: none; }
 .article-card {
   display: block;
   text-decoration: none;

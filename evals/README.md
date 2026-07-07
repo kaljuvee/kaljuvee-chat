@@ -1,4 +1,4 @@
-# Ask Julian — Evals
+# Talk to Julian — Evals
 
 Automated quality checks for the personal CV chatbot. Each case is a real
 user question; the live `ask_julian` agent answers it, and a **deepeval GEval**

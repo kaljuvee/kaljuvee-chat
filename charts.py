@@ -1,4 +1,4 @@
-"""Plotly chart builders for Ask Julian.
+"""Plotly chart builders for Talk to Julian.
 
 Single source of truth for every chart — used both inline in the chat (streamed
 via SSE) and on the static /visuals dashboard. Each builder returns a plain

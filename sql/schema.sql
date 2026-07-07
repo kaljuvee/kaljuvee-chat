@@ -1,4 +1,4 @@
--- kaljuvee.chat (Ask Julian) — SQLite schema
+-- kaljuvee.chat (Talk to Julian) — SQLite schema
 -- Tables are created automatically at startup by db.init_db(); this file is a
 -- reference. Only chat auth + history is stored.
 
