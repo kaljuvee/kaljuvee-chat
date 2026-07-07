@@ -85,3 +85,14 @@ Notable delivered projects:
   & Probability Theory).
 - Currently: AI Engineer (contract) at Indurent, a £6bn+ Blackstone PE/CRE portfolio company,
   and founder of Predictive Labs.
+
+## Availability & engagement preferences
+
+- Julian is open to new work and **prefers contracting / freelance engagements** over
+  permanent employment.
+- Preferred structure: **outside IR35** (UK). He typically engages through his own company,
+  Predictive Labs.
+- Remote-first, and already works with clients across the UK, Nordics, Benelux and Baltics;
+  on-site is possible where a client needs it.
+- Specific rate, notice period and start date are handled case by case — for those, point the
+  visitor to contact Julian directly (kaljuvee@gmail.com or LinkedIn).

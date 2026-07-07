@@ -38,6 +38,7 @@ ASK_JULIAN = AgentSpec(
         "What's his experience with GenAI and LLM systems?",
         "Has he worked in private equity or financial services?",
         "Tell me about his company, Predictive Labs.",
+        "Is Julian available for contract work?",
     ),
 )
 
