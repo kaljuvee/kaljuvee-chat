@@ -139,7 +139,52 @@ edit `ask_julian.md`. No code changes required.
 
 ---
 
-## 4. Data Model
+## 4. Agent Architecture
+
+A single **LangGraph** ReAct agent (`ask_julian`) with **no tools** — every answer is
+grounded in the composed system prompt. Two deterministic branches sit *in front of* the
+agent (the CV-download intercept and the sign-in gate) and one *after* it (chart detection),
+so the LLM only handles free-form Q&A while side-effects stay predictable.
+
+```mermaid
+flowchart TB
+    MSG["User message<br/>POST /app/chat"]
+    GATE{{"Free-query gate<br/>anon count ≥ FREE_QUERY_LIMIT?"}}
+    SIGNIN["SSE gate event<br/>→ open sign-in overlay"]
+    CVQ{{"CV request?<br/>cv_export.is_cv_request"}}
+    DL["HTML download buttons<br/>/cv/pdf · /cv/docx (no LLM)"]
+    ROUTER["router.route()<br/>(single agent → ask_julian)"]
+
+    subgraph AGENT["ask_julian agent — agents/"]
+        BUILD["cached_agent('ask_julian')<br/>create_react_agent(llm, tools=[])"]
+        PROMPT["Grounded system prompt<br/>ask_julian.md + cv.md + career_facts.md"]
+    end
+
+    LLM[["LLM provider (utils/llm.py)<br/>Grok · OpenAI · Anthropic"]]
+    CHARTQ{{"Skill / experience intent?<br/>charts.detect_charts"}}
+    PLOTLY["Plotly builder<br/>charts.py → figure JSON"]
+    SSE(["SSE stream to client<br/>session · token · chart · done"])
+
+    MSG --> GATE
+    GATE -->|blocked| SIGNIN
+    GATE -->|allowed| CVQ
+    CVQ -->|yes| DL --> SSE
+    CVQ -->|no| ROUTER --> BUILD
+    BUILD -. reads .-> PROMPT
+    BUILD -->|history + message| LLM
+    LLM -->|streamed tokens| SSE
+    ROUTER --> CHARTQ
+    CHARTQ -->|match| PLOTLY -->|inline chart| SSE
+    CHARTQ -->|none| SSE
+```
+
+To add real tool-use later, pass tools to `build_agent(spec, tools)` in
+`agents/career/ask_julian.py` — the ReAct loop and SSE `tool_start`/`tool_end` plumbing are
+already in place.
+
+---
+
+## 5. Data Model
 
 Only chat auth and history are stored. Everything else (CV, projects, links, articles) is
 file-based content, not database rows.
@@ -179,7 +224,7 @@ erDiagram
 
 ---
 
-## 5. Articles / Writing Feed
+## 6. Research & Talks Feed
 
 The right-hand pane renders a tag-filterable feed of Julian's writing. Because LinkedIn
 articles are auth-gated and have no public RSS, the source of truth is a hand-curated YAML
@@ -201,7 +246,7 @@ flowchart TB
 
 ---
 
-## 6. Configuration & Deployment
+## 7. Configuration & Deployment
 
 | Concern | Mechanism |
 |---|---|

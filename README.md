@@ -9,6 +9,8 @@ Built with **FastHTML** (server-rendered hypermedia + SSE streaming), a single *
 agent, and a small **SQLite** database. Provider-agnostic LLM layer (xAI Grok by default;
 OpenAI or Anthropic with one env change).
 
+![Ask Julian — demo](screenshots/kaljuvee-chat-demo.gif)
+
 > 📐 Full system design with diagrams: **[docs/architecture_readme.md](docs/architecture_readme.md)**
 
 ---
@@ -25,6 +27,24 @@ flowchart LR
     APP -->|accounts + history| DB[("SQLite<br/>users · sessions · messages")]
     APP -. articles .-> ART["config/articles.yaml"]
 ```
+
+**Agent path** — deterministic branches (sign-in gate, CV-download intercept, chart
+detection) wrap a single grounded LangGraph agent, so side-effects stay predictable and the
+LLM only does free-form Q&A:
+
+```mermaid
+flowchart LR
+    MSG["POST /app/chat"] --> GATE{{"free-query gate"}}
+    GATE -->|blocked| SIGN["sign-in"]
+    GATE -->|allowed| CVQ{{"CV request?"}}
+    CVQ -->|yes| DL["/cv/pdf · /cv/docx"]
+    CVQ -->|no| AGENT["ask_julian<br/>create_react_agent(llm, tools=[])<br/>prompt = cv + facts + persona"]
+    AGENT --> LLM[["Grok / OpenAI / Anthropic"]]
+    AGENT -. detect .-> CHART{{"skill / experience?"}}
+    CHART -->|yes| PLOT["Plotly chart<br/>streamed inline"]
+```
+
+See **[docs/architecture_readme.md §4](docs/architecture_readme.md)** for the detailed agent diagram.
 
 ---
 
