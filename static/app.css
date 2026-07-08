@@ -1189,6 +1189,9 @@ details.article-section[open] .article-section-arrow { transform: rotate(90deg);
   border-radius: 6px; text-decoration: none; transition: all .12s;
 }
 .visuals-link:hover { background: #EEF0F2; border-color: #D5D5D5; }
+/* Book a call — primary-accent variant of the nav link */
+.book-call-link { background: var(--accent); border-color: var(--accent); color: #fff; }
+.book-call-link:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
 
 /* Visuals dashboard tabs (in-app, shareable via ?tab=) */
 .viz-tabs { display: flex; gap: 4px; grid-column: 2; justify-self: center; flex-wrap: wrap; }

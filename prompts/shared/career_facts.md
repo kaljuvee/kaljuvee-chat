@@ -13,6 +13,7 @@ someone asks "where can I see your work / profile / company".
 - Company (Predictive Labs): https://predictivelabs.ai
 - Company GitHub org: https://github.com/orgs/predictivelabsai/repositories
 - Email: kaljuvee@gmail.com
+- Book a call (Cal.com): https://cal.com/kaljuvee
 
 ## Predictive Labs (his company)
 

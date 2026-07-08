@@ -39,6 +39,7 @@ ASK_JULIAN = AgentSpec(
         "Has he worked in private equity or financial services?",
         "Tell me about his company, Predictive Labs.",
         "Is Julian available for contract work?",
+        "Can I book a call with Julian?",
     ),
 )
 

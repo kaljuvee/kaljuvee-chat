@@ -247,6 +247,24 @@ def register_chat_routes(rt):
 
             return StreamingResponse(cv_stream(), media_type="text/event-stream")
 
+        # "Book a call" request → return HTML with a Cal.com button (no LLM call).
+        from scheduling import is_scheduling_request, scheduling_response_html
+        if is_scheduling_request(agent_router.strip_prefix(user_msg)):
+            html = scheduling_response_html()
+            _persist_message(session_id, "assistant", html, agent_slug=agent_slug)
+
+            async def sched_stream():
+                yield sse.event("session", {"sid": session_id})
+                yield sse.event(sse.AGENT_ROUTE, {
+                    "slug": agent_slug,
+                    "agent": spec.name if spec else agent_slug,
+                    "icon": spec.icon if spec else "*",
+                })
+                yield sse.event(sse.TOKEN, {"text": html})
+                yield sse.event(sse.DONE, {"slug": agent_slug})
+
+            return StreamingResponse(sched_stream(), media_type="text/event-stream")
+
         history = _session_messages(session_id)[:-1]
         stripped_msg = agent_router.strip_prefix(user_msg)
 

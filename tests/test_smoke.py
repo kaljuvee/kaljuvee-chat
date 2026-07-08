@@ -50,5 +50,17 @@ def test_chat_page_renders_nav():
     html = str(chat_page(user_email=None, sessions=[], messages=[]))
     for needle in ["Talk to Julian", "julian-kaljuvee-portrait.jpeg",
                    "linkedin.com/in/juliankaljuvee", "predictivelabs.ai",
-                   "liquidround", "Try asking", "New chat"]:
+                   "liquidround", "Try asking", "New chat",
+                   "Book a call", "cal.com/kaljuvee"]:   # left-menu scheduling
         assert needle in html, f"missing from page: {needle}"
+
+
+def test_scheduling_intent_detection():
+    from scheduling import is_scheduling_request, scheduling_response_html, BOOKING_URL
+    for m in ["Can I book a call with Julian?", "schedule a meeting",
+              "let's chat sometime", "hop on a call", "book a slot"]:
+        assert is_scheduling_request(m), f"should detect: {m}"
+    for m in ["What are Julian's strongest skills?", "Can you give me your CV?",
+              "Tell me about his company"]:
+        assert not is_scheduling_request(m), f"false positive: {m}"
+    assert BOOKING_URL in scheduling_response_html()
