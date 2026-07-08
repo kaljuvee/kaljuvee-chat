@@ -235,11 +235,13 @@
             const tags = (card.getAttribute("data-tags") || "").split(",");
             card.style.display = (tag === "all" || tags.includes(tag)) ? "" : "none";
         });
-        // Hide a section subheading when its cards are all filtered out.
+        // Hide a section when its cards are all filtered out; when a specific tag
+        // is active, expand the sections that still have matches so results show.
         document.querySelectorAll(".article-section").forEach(sec => {
             const anyVisible = [...sec.querySelectorAll(".article-card")]
                 .some(c => c.style.display !== "none");
             sec.style.display = anyVisible ? "" : "none";
+            if (tag !== "all") sec.open = anyVisible;
         });
     };
 

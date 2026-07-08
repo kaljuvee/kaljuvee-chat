@@ -6,7 +6,7 @@ import json
 
 from fasthtml.common import (
     Div, Span, H2, H3, H4, P, A, Img, Button, Form, Input, Textarea,
-    Script, NotStr,
+    Script, NotStr, Details, Summary,
 )
 from agents.registry import AGENTS, AGENTS_BY_SLUG, SAMPLE_QUESTIONS
 
@@ -132,6 +132,21 @@ def signin_overlay():
 
 # ── Left pane ────────────────────────────────────────────────────────────────
 
+def _nav_group(title, count, *children, open=True):
+    """A collapsible left-nav section: a summary row (label + count + ▸ arrow)
+    over its children. Uses native <details> so no JS is needed to toggle."""
+    return Details(
+        Summary(
+            Span(title, cls="nav-group-name"),
+            Span(str(count), cls="nav-group-count"),
+            Span("▸", cls="nav-group-arrow"),
+            cls="nav-group-toggle",
+        ),
+        Div(*children, cls="nav-group-body"),
+        cls="nav-group", **({"open": True} if open else {}),
+    )
+
+
 def left_pane(user_email=None, sessions=None, current_sid=""):
     sessions = sessions or []
 
@@ -197,22 +212,17 @@ def left_pane(user_email=None, sessions=None, current_sid=""):
             cls="px-3 pt-3",
         ),
         Div(
-            H4("Try asking", cls="section-label"),
-            Div(*question_items, cls="nav-questions"),
-            cls="agents-section",
-        ),
-        Div(
-            H4("Recent", cls="section-label"),
-            Div(*session_items, cls="session-list") if session_items else
-            P("No conversations yet", cls="text-xs text-gray-400 px-3"),
-            cls="history-section",
-        ),
-        Div(
-            H4("Links", cls="section-label"),
-            *link_items,
-            H4("Selected projects", cls="section-label mt-3"),
-            *project_groups,
-            cls="agents-section",
+            _nav_group("Try asking", len(question_items),
+                       Div(*question_items, cls="nav-questions"), open=True),
+            _nav_group("Recent", len(session_items),
+                       Div(*session_items, cls="session-list") if session_items else
+                       P("No conversations yet", cls="text-xs text-gray-400 px-3"),
+                       open=True),
+            _nav_group("Links", len(link_items), *link_items, open=True),
+            _nav_group("Selected projects",
+                       sum(len(items) for _, items in PROJECTS_BY_SECTOR),
+                       *project_groups, open=False),
+            cls="nav-groups",
         ),
         Div(auth_section, cls="auth-section"),
         cls="left-pane",
@@ -326,19 +336,28 @@ def right_pane():
         for t in tags
     ]
 
+    # Collapsible section per group (first one open by default). Native <details>,
+    # so toggling needs no JS; the ▸ arrow rotates via CSS when open.
     section_blocks = [
-        Div(
-            H4(name, cls="article-section-title"),
+        Details(
+            Summary(
+                Span(name, cls="article-section-name"),
+                Span(str(len(items)), cls="article-section-count"),
+                Span("▸", cls="article-section-arrow"),
+                cls="article-section-toggle",
+            ),
             *[_article_card(a) for a in items],
             cls="article-section", **{"data-section": name},
+            **({"open": True} if idx == 0 else {}),
         )
-        for name, items in sections
+        for idx, (name, items) in enumerate(sections)
     ]
 
     body = (
         Div(
             Div(*tag_chips, cls="article-tags") if tags else "",
             Div(*section_blocks, id="article-list", cls="article-list"),
+            cls="article-pane-body",
         ) if articles else
         P("No articles yet — check back soon.", cls="text-sm text-gray-400 px-4 py-8 text-center")
     )
