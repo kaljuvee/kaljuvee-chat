@@ -10,6 +10,7 @@ from fasthtml.common import (
 )
 from agents.registry import AGENTS, AGENTS_BY_SLUG, SAMPLE_QUESTIONS
 from scheduling import BOOKING_URL
+from fast_projects import FASTSME_GROUPS, FASTSME_SITE
 
 
 # ── Static nav data (mirrors prompts/shared/career_facts.md) ─────────────────
@@ -182,6 +183,15 @@ def left_pane(user_email=None, sessions=None, current_sid=""):
             cls="project-group",
         ))
 
+    fastsme_groups = []
+    for category, apps in FASTSME_GROUPS:
+        fastsme_groups.append(Div(
+            H4(category, cls="project-sector"),
+            *[A(f"{name} — {label}", href=url, target="_blank", rel="noopener",
+                cls="project-link") for name, label, url in apps],
+            cls="project-group",
+        ))
+
     auth_section = (
         Div(
             Span(user_email, cls="text-xs text-gray-500 truncate"),
@@ -225,6 +235,14 @@ def left_pane(user_email=None, sessions=None, current_sid=""):
                        P("No conversations yet", cls="text-xs text-gray-400 px-3"),
                        open=True),
             _nav_group("Links", len(link_items), *link_items, open=True),
+            _nav_group(
+                "FastSME",
+                sum(len(apps) for _, apps in FASTSME_GROUPS),
+                A("FastSME — all products", href=f"{FASTSME_SITE}/products",
+                  target="_blank", rel="noopener", cls="workspace-link"),
+                *fastsme_groups,
+                open=False,
+            ),
             _nav_group("Selected projects",
                        sum(len(items) for _, items in PROJECTS_BY_SECTOR),
                        *project_groups, open=False),

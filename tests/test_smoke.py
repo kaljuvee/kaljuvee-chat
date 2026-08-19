@@ -2,7 +2,8 @@
 
 import os
 
-os.environ.setdefault("DB_URL", "sqlite:///:memory:")
+# Always isolate tests from a developer/deployment .env file.
+os.environ["DB_URL"] = "sqlite:///:memory:"
 
 
 def test_db_init():
@@ -17,6 +18,9 @@ def test_system_prompt_is_grounded():
     assert "Indurent" in p            # CV injected
     assert "Microsoft" in p
     assert "predictivelabs" in p.lower()  # curated facts injected
+    assert "FastAccounts" in p
+    assert "https://clinic.fastsme.com" in p
+    assert "https://github.com/predictivelabsai/FastVoice" in p
 
 
 def test_router_single_agent():
@@ -53,6 +57,16 @@ def test_chat_page_renders_nav():
                    "liquidround", "Try asking", "New chat",
                    "Book a call", "cal.com/kaljuvee"]:   # left-menu scheduling
         assert needle in html, f"missing from page: {needle}"
+    for needle in ["FastSME", "fastsme.com/products", "office.fastsme.com",
+                   "FastClinic", "FastFactoring"]:
+        assert needle in html, f"missing FastSME nav item: {needle}"
+
+
+def test_fast_project_inventory_is_complete_and_unique():
+    from fast_projects import FAST_REPOSITORIES
+    names = [project[0] for project in FAST_REPOSITORIES]
+    assert len(names) == 41
+    assert len(names) == len(set(names))
 
 
 def test_scheduling_intent_detection():

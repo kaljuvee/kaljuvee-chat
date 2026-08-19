@@ -28,12 +28,15 @@ def _load_system_prompt(slug: str) -> str:
     persona = _read(SYSTEM_DIR / f"{slug}.md")
     cv = _read(SHARED_DIR / "cv.md")
     facts = _read(SHARED_DIR / "career_facts.md")
+    from fast_projects import grounding_markdown
+    fast_projects = grounding_markdown()
     if not persona:
         log.warning("no persona prompt for %s", slug)
     parts = [
         persona,
         "# Julian Kaljuvee — CV (verbatim source of truth)\n\n" + cv if cv else "",
         facts,
+        fast_projects,
     ]
     return "\n\n---\n\n".join(p for p in parts if p).strip()
 
