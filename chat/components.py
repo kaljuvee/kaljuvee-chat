@@ -259,13 +259,13 @@ def left_pane(user_email=None, sessions=None, current_sid=""):
             cls="px-3 pt-3",
         ),
         Div(
+            _nav_group("Research", len(research_items), *research_items, open=True),
             _nav_group("Try asking", len(question_items),
                        Div(*question_items, cls="nav-questions"), open=True),
             _nav_group("Recent", len(session_items),
                        Div(*session_items, cls="session-list") if session_items else
                        P("No conversations yet", cls="text-xs text-gray-400 px-3"),
                        open=True),
-            _nav_group("Research", len(research_items), *research_items, open=True),
             _nav_group("Links", len(link_items), *link_items, open=True),
             _nav_group(
                 "FastSME",

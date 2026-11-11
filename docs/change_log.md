@@ -1,5 +1,10 @@
 # Change log
 
+## 1.2.2 — 2026-11-12
+
+- Left menu: Research section moved to the top (above "Try asking") so the paper and its
+  Download PDF link are visible without scrolling.
+
 ## 1.2.1 — 2026-11-12
 
 - Removed an accidentally committed local `.sesskey` (FastHTML dev session key from a local test
