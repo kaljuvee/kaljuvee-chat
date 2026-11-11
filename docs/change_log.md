@@ -1,5 +1,10 @@
 # Change log
 
+## 1.2.1 — 2026-11-12
+
+- Removed an accidentally committed local `.sesskey` (FastHTML dev session key from a local test
+  run; production signs sessions with `APP_SECRET`, so it was never used live) and gitignored it.
+
 ## 1.2.0 — 2026-11-12
 
 - Paper PDF added to the repo (`research/papers/temporal-leakage-financial-news-nlp.pdf`, arXiv
