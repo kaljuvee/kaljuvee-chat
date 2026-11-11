@@ -1,5 +1,20 @@
 # Change log
 
+## 1.2.0 — 2026-11-12
+
+- Paper PDF added to the repo (`research/papers/temporal-leakage-financial-news-nlp.pdf`, arXiv
+  2608.17223 v2) and served from the site at `/research/<slug>.pdf` (application/pdf).
+- Left menu: new **Research** section listing each paper with *Download PDF* (our copy),
+  *arXiv* and *Markdown* (LLM-readable `/research/<slug>.md`) links; the title opens the paper page.
+- `/llms.txt` lists the research markdown, PDF and arXiv links for LLM crawlers.
+- Chat: questions about Julian's research / publications / papers ("What is Julian's research
+  about?", "What has Julian Kaljuvee published?", "his papers", "your research") route to the
+  paper retrieval; context and system prompt state he is a co-author (last author of 8) and
+  carry page, PDF, markdown and arXiv links. Numbers are asked for in plain text, not LaTeX.
+- Explicit `/llms.txt` and `/research/*` routes are moved ahead of FastHTML's static catch-all
+  (which otherwise swallowed `.pdf` / `.txt`). Sample question "What is Julian's research about?".
+- Markdown version re-checked against arXiv: v2 is still the latest version.
+
 ## 1.1.2 — 2026-11-11
 
 - RAG citation instruction now asks for the paper's full title (the model sometimes printed a

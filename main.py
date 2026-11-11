@@ -42,8 +42,15 @@ register_visuals_routes(rt)
 
 # --- Research papers (/research, /research/<slug>) ---
 
-from research_pages import register_research_routes
+from research_pages import register_research_routes, register_llms_txt
 register_research_routes(rt)
+register_llms_txt(rt)
+
+# FastHTML registers a catch-all static route (`/{fname:path}.{ext:static}`) that would
+# swallow /llms.txt and /research/<slug>.pdf; move our explicit routes in front of it.
+_mine = [r for r in app.router.routes
+         if getattr(r, "path", "") in ("/llms.txt", "/research", "/research/{slug}")]
+app.router.routes[:] = _mine + [r for r in app.router.routes if r not in _mine]
 
 # --- Voice mode (WebSocket proxy to x.ai realtime agent) ---
 

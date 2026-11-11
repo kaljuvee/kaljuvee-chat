@@ -95,3 +95,35 @@ def test_research_paper_loaded_and_retrievable():
 def test_system_prompt_mentions_paper():
     from agents.base import _load_system_prompt
     assert "2608.17223" in _load_system_prompt("ask_julian")
+
+
+def test_julian_research_queries_route_to_retrieval():
+    import research
+    for q in ["What is Julian's research about?", "What has Julian Kaljuvee published?",
+              "Tell me about Julian's work on temporal leakage", "What are your research papers?",
+              "Tell me about his papers"]:
+        ctx = research.build_context(q)
+        assert ctx and "2608.17223" in ctx, q
+        assert "last author of 8 authors" in ctx
+        assert "/research/temporal-leakage-financial-news-nlp.pdf" in ctx
+    assert research.build_context("Is Julian available for contract work?") is None
+
+
+def test_paper_pdf_and_markdown_present():
+    import research
+    p = research.by_slug("temporal-leakage-financial-news-nlp")
+    assert p.has_local_pdf and p.pdf_path.read_bytes()[:5] == b"%PDF-"
+    assert p.julian_role == "Julian Kaljuvee is a co-author (last author of 8 authors)"
+    assert "## References" in p.body and "## 9 Conclusion" in p.body
+
+
+def test_left_nav_has_research_links_and_llms_txt():
+    from chat.components import left_pane
+    from fasthtml.common import to_xml
+    html = to_xml(left_pane())
+    assert "/research/temporal-leakage-financial-news-nlp.pdf" in html
+    assert "/research/temporal-leakage-financial-news-nlp.md" in html
+    assert "arxiv.org/abs/2608.17223" in html
+    from research_pages import llms_txt
+    t = llms_txt()
+    assert "/research/temporal-leakage-financial-news-nlp.md" in t and "last author" in t

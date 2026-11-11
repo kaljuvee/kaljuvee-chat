@@ -31,8 +31,10 @@ tell explain describe give show please paper papers study research
 """.split())
 
 # Words that signal the visitor is asking about research/papers in general.
-_RESEARCH_HINTS = {"paper", "papers", "arxiv", "research", "publication", "publications",
-                   "published", "preprint", "study", "co-authored", "coauthored", "authors"}
+_RESEARCH_HINTS = {"paper", "papers", "arxiv", "research", "researcher", "publication", "publications",
+                   "publish", "published", "publishes", "publishing", "preprint", "preprints", "study",
+                   "studies", "co-authored", "coauthored", "co-author", "coauthor", "authors", "academic",
+                   "scholarly", "journal", "citation", "citations", "cite"}
 
 
 @dataclass
@@ -47,6 +49,34 @@ class Paper:
     body: str            # markdown without front-matter
     abstract: str = ""
     meta: dict = field(default_factory=dict)
+
+    @property
+    def author_list(self) -> list[str]:
+        return [a.strip() for a in self.authors.split(",") if a.strip()]
+
+    @property
+    def julian_role(self) -> str:
+        names = self.author_list
+        idx = next((i for i, a in enumerate(names) if "kaljuvee" in a.lower()), None)
+        if idx is None:
+            return ""
+        pos = "last author" if idx == len(names) - 1 else f"author {idx + 1}"
+        return f"Julian Kaljuvee is a co-author ({pos} of {len(names)} authors)"
+
+    @property
+    def pdf_path(self) -> Path:
+        return PAPERS_DIR / f"{self.slug}.pdf"
+
+    @property
+    def has_local_pdf(self) -> bool:
+        return self.pdf_path.exists()
+
+    def links(self, base: str = "https://kaljuvee.chat") -> dict:
+        d = {"page": f"{base}/research/{self.slug}", "markdown": f"{base}/research/{self.slug}.md",
+             "arxiv": self.url, "arxiv_pdf": self.pdf}
+        if self.has_local_pdf:
+            d["pdf"] = f"{base}/research/{self.slug}.pdf"
+        return d
 
 
 @dataclass
@@ -194,14 +224,17 @@ def build_context(query: str, history: str = "", k: int = 5) -> str | None:
         hits = hits[:k + 2]
     papers = {c.paper.slug: c.paper for _, c in hits} or {p.slug: p for p in load_papers()}
     lines = ["# Retrieved research context (from Julian's papers on kaljuvee.chat/research)",
-             "Answer using ONLY these excerpts plus the paper metadata. Quote numbers exactly. "
+             "Answer using ONLY these excerpts plus the paper metadata. Quote numbers exactly, written as "
+             "plain text/Unicode (e.g. 1.1×, p < 10⁻³) — never LaTeX or $…$ math. "
              "End with a citation line giving the paper's full title in italics, its arXiv ID, the "
-             "kaljuvee.chat/research page and the arXiv URL listed below. If a paper detail isn't in the excerpts, say so rather than guess; "
+             "kaljuvee.chat/research page, the PDF and the arXiv URL listed below. Mention that Julian "
+             "is a co-author (with his author position) when describing his research. If a paper detail isn't in the excerpts, say so rather than guess; "
              "for non-paper parts of the question, answer from the CV as usual.", ""]
     for p in papers.values():
         lines += [f"## Paper: {p.title}", f"- Authors: {p.authors}",
+                  f"- {p.julian_role}" if p.julian_role else "",
                   f"- arXiv: {p.arxiv} ({p.url}), submitted {p.date}",
-                  f"- On this site: https://kaljuvee.chat/research/{p.slug}",
+                  *[f"- {k}: {v}" for k, v in p.links().items()],
                   f"- Abstract: {p.abstract}", ""]
     for i, (score, c) in enumerate(hits, 1):
         lines += [f"### Excerpt {i} — {c.paper.title.split(':')[0]} · section \"{c.section}\"", c.text, ""]
@@ -213,10 +246,18 @@ def grounding_markdown() -> str:
     papers = load_papers()
     if not papers:
         return ""
-    out = ["# Research papers (Julian is a co-author)",
-           "Full markdown versions are on https://kaljuvee.chat/research. When a question is about "
-           "a paper, retrieved excerpts are added to the user's message — rely on them for details."]
+    out = ["# Julian's research and publications",
+           "When asked about Julian's research, publications, papers or academic work (\"your research\", "
+           "\"his papers\", \"what has he published\"), answer from this section: name each paper, say he is "
+           "a co-author and his author position, summarise the findings, and cite the title, arXiv ID and "
+           "links (site page, PDF, arXiv). Full markdown versions are on https://kaljuvee.chat/research "
+           "(LLM-readable .md at /research/<slug>.md). When a question is about a paper, retrieved excerpts "
+           "are added to the user's message — rely on them for details."]
     for p in papers:
-        out += [f"\n## {p.title}", f"- Authors: {p.authors}", f"- arXiv:{p.arxiv} · {p.url} · {p.date}",
-                f"- Page: https://kaljuvee.chat/research/{p.slug}", f"- Abstract: {p.abstract}"]
+        out += [f"\n## {p.title}", f"- Authors: {p.authors}"]
+        if p.julian_role:
+            out.append(f"- {p.julian_role}")
+        out += [f"- arXiv:{p.arxiv} · submitted {p.date}"]
+        out += [f"- {k}: {v}" for k, v in p.links().items()]
+        out.append(f"- Abstract: {p.abstract}")
     return "\n".join(out)

@@ -51,7 +51,7 @@ def _head(title: str = "Talk to Julian") -> Head:
         Script(NotStr(TAILWIND_CONFIG)),
         Script(src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"),
         Script(src="https://cdn.plot.ly/plotly-2.35.2.min.js"),
-        Link(rel="stylesheet", href="/static/app.css?v=6"),
+        Link(rel="stylesheet", href="/static/app.css?v=7"),
     )
 
 

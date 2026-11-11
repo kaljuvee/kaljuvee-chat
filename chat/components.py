@@ -149,6 +149,30 @@ def _nav_group(title, count, *children, open=True):
     )
 
 
+def _research_nav_items():
+    """Left-menu Research section: one block per paper with page / PDF / arXiv / .md links."""
+    try:
+        import research
+        papers = research.load_papers()
+    except Exception:
+        papers = ()
+    items = []
+    for p in papers:
+        short = p.title.split(":")[0]
+        links = [A("Download PDF", href=f"/research/{p.slug}.pdf", download="",
+                   cls="research-nav-btn primary", title=f"{p.title} (PDF, arXiv:{p.arxiv})")]
+        links.append(A("arXiv", href=p.url, target="_blank", rel="noopener", cls="research-nav-btn"))
+        links.append(A("Markdown", href=f"/research/{p.slug}.md", cls="research-nav-btn",
+                       title="LLM-readable markdown version"))
+        items.append(Div(
+            A(short, href=f"/research/{p.slug}", cls="research-nav-title", title=p.title),
+            Div(f"arXiv:{p.arxiv} · co-author", cls="research-nav-meta"),
+            Div(*links, cls="research-nav-links"),
+            cls="research-nav-item",
+        ))
+    return items
+
+
 def left_pane(user_email=None, sessions=None, current_sid=""):
     sessions = sessions or []
 
@@ -173,6 +197,8 @@ def left_pane(user_email=None, sessions=None, current_sid=""):
         A(label, href=href, target="_blank", rel="noopener", cls="workspace-link")
         for label, href in PROFILE_LINKS
     ]
+
+    research_items = _research_nav_items()
 
     project_groups = []
     for sector, items in PROJECTS_BY_SECTOR:
@@ -239,6 +265,7 @@ def left_pane(user_email=None, sessions=None, current_sid=""):
                        Div(*session_items, cls="session-list") if session_items else
                        P("No conversations yet", cls="text-xs text-gray-400 px-3"),
                        open=True),
+            _nav_group("Research", len(research_items), *research_items, open=True),
             _nav_group("Links", len(link_items), *link_items, open=True),
             _nav_group(
                 "FastSME",

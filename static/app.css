@@ -1284,3 +1284,14 @@ details.article-section[open] .article-section-arrow { transform: rotate(90deg);
 .paper-body tr:first-child td, .paper-body th { background: #F5F5F5; font-weight: 600; }
 .paper-body blockquote { border-left: 3px solid #E5E5E5; padding-left: 12px; color: #6B7280; }
 .paper-body .katex { font-size: 1.02em; }
+
+/* left-menu Research section */
+.research-nav-item { padding: 6px 10px 10px; border-radius: 8px; }
+.research-nav-item:hover { background: #F5F5F5; }
+.research-nav-title { display: block; font-size: 13px; font-weight: 600; color: #1A1A1A; line-height: 1.35; text-decoration: none; }
+.research-nav-title:hover { text-decoration: underline; }
+.research-nav-meta { font-size: 11px; color: #9CA3AF; margin: 2px 0 6px; }
+.research-nav-links { display: flex; flex-wrap: wrap; gap: 6px; }
+.research-nav-btn { font-size: 11.5px; padding: 3px 8px; border: 1px solid #E5E5E5; border-radius: 6px; color: #1A1A1A; text-decoration: none; background: #fff; }
+.research-nav-btn:hover { border-color: #CFCFCF; background: #EEF0F2; }
+.research-nav-btn.primary { background: #000; color: #fff; border-color: #000; }
