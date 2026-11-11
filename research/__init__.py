@@ -195,8 +195,8 @@ def build_context(query: str, history: str = "", k: int = 5) -> str | None:
     papers = {c.paper.slug: c.paper for _, c in hits} or {p.slug: p for p in load_papers()}
     lines = ["# Retrieved research context (from Julian's papers on kaljuvee.chat/research)",
              "Answer using ONLY these excerpts plus the paper metadata. Quote numbers exactly. "
-             "Cite the paper as: *Title* (arXiv:ID) and link https://kaljuvee.chat/research/<slug> "
-             "and the arXiv URL. If a paper detail isn't in the excerpts, say so rather than guess; "
+             "End with a citation line giving the paper's full title in italics, its arXiv ID, the "
+             "kaljuvee.chat/research page and the arXiv URL listed below. If a paper detail isn't in the excerpts, say so rather than guess; "
              "for non-paper parts of the question, answer from the CV as usual.", ""]
     for p in papers.values():
         lines += [f"## Paper: {p.title}", f"- Authors: {p.authors}",

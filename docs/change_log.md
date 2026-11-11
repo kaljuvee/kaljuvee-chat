@@ -1,5 +1,10 @@
 # Change log
 
+## 1.1.2 — 2026-11-11
+
+- RAG citation instruction now asks for the paper's full title (the model sometimes printed a
+  literal "*Title*" placeholder).
+
 ## 1.1.1 — 2026-11-11
 
 - CI: the "Deploy to Coolify" workflow now POSTs to the new Coolify deploy endpoint
