@@ -78,3 +78,20 @@ def test_scheduling_intent_detection():
               "Tell me about his company"]:
         assert not is_scheduling_request(m), f"false positive: {m}"
     assert BOOKING_URL in scheduling_response_html()
+
+
+def test_research_paper_loaded_and_retrievable():
+    import research
+    papers = research.load_papers()
+    assert any(p.arxiv == "2608.17223" for p in papers)
+    p = research.by_slug("temporal-leakage-financial-news-nlp")
+    assert p and "Kaljuvee" in p.authors and p.abstract
+    hits = research.search("Does the M&A signal transfer to FNSPID?", k=3)
+    assert hits and "FNSPID" in hits[0][1].text
+    assert research.build_context("What did the temporal leakage paper find?")
+    assert research.build_context("What is Julian's experience at Microsoft?") is None
+
+
+def test_system_prompt_mentions_paper():
+    from agents.base import _load_system_prompt
+    assert "2608.17223" in _load_system_prompt("ask_julian")

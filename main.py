@@ -40,6 +40,11 @@ register_cv_routes(rt)
 from visuals import register_visuals_routes
 register_visuals_routes(rt)
 
+# --- Research papers (/research, /research/<slug>) ---
+
+from research_pages import register_research_routes
+register_research_routes(rt)
+
 # --- Voice mode (WebSocket proxy to x.ai realtime agent) ---
 
 from voice import register_voice_routes

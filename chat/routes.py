@@ -282,7 +282,18 @@ def register_chat_routes(rt):
                     lc_messages.append(HumanMessage(content=h["content"]))
                 elif h["role"] == "assistant":
                     lc_messages.append(AIMessage(content=h["content"]))
-            lc_messages.append(HumanMessage(content=stripped_msg))
+            # Simple RAG: when the question is about a research paper, retrieve the
+            # most relevant chunks of its markdown and prepend them to this turn only.
+            turn_msg = stripped_msg
+            try:
+                from research import build_context
+                recent = " ".join(h["content"][:500] for h in history[-4:] if h["role"] == "user")
+                ctx = build_context(stripped_msg, history=recent)
+                if ctx:
+                    turn_msg = f"{ctx}\n\n---\n\nVisitor question: {stripped_msg}"
+            except Exception as e:  # retrieval must never break chat
+                log.warning("research retrieval failed: %s", e)
+            lc_messages.append(HumanMessage(content=turn_msg))
 
             accumulated = []
 

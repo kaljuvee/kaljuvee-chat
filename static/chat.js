@@ -296,6 +296,13 @@
         if (ab) ab.classList.add("active");
     }
 
+    // Prefill a question from ?q= (e.g. "Ask about this paper" on /research).
+    (function prefillFromQuery() {
+        const q = new URLSearchParams(window.location.search).get("q");
+        const ta = $("#chat-input");
+        if (q && ta) { ta.value = q.slice(0, 500); if (typeof autoResize === "function") autoResize(ta); ta.focus(); }
+    })();
+
     // Restore a question the visitor asked right before the sign-in gate.
     (function restorePending() {
         let q = null;

@@ -51,7 +51,7 @@ def _head(title: str = "Talk to Julian") -> Head:
         Script(NotStr(TAILWIND_CONFIG)),
         Script(src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"),
         Script(src="https://cdn.plot.ly/plotly-2.35.2.min.js"),
-        Link(rel="stylesheet", href="/static/app.css"),
+        Link(rel="stylesheet", href="/static/app.css?v=6"),
     )
 
 
@@ -69,7 +69,7 @@ def chat_page(user_email=None, sessions=None, current_sid="",
             Span("Research", cls="toggle-label"),
             id="right-pane-toggle-btn", cls="right-pane-toggle", onclick="toggleArtifactPane()",
         ),
-        Script(src="/static/chat.js?v=5"),
+        Script(src="/static/chat.js?v=6"),
         Script(src="/static/voice.js?v=2"),
         cls="bg-white text-ink font-sans antialiased app",
         **({"data-signed-in": "1"} if user_email else {}),

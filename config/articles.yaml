@@ -8,7 +8,7 @@
 # posts show up automatically.
 
 # Display order of the section subheadings (any section not listed is appended A→Z).
-section_order: [LinkedIn, Talks, Personal Blog]
+section_order: [Papers, LinkedIn, Talks, Personal Blog]
 
 rss_feeds:
   - url: "https://medium.com/feed/@kaljuvee"
@@ -16,6 +16,13 @@ rss_feeds:
     tags: [Blog]
 
 articles:
+  # ── Papers (full markdown versions live in research/papers/, shown at /research) ──
+  - title: "Temporal Leakage in Financial News NLP: A Multi-Architecture Audit with a Regime-Specific M&A Signal"
+    url: "https://kaljuvee.chat/research/temporal-leakage-financial-news-nlp"
+    date: "2026-08-18"
+    section: "Papers"
+    tags: [Research, NLP, Finance]
+
   # ── LinkedIn articles (newest first) ──────────────────────────────────
   - title: "A Quick Introduction to Recursive Language Models (RLMs)"
     url: "https://www.linkedin.com/pulse/quick-introduction-recursive-language-models-rlms-julian-kaljuvee-7dabf/"

@@ -40,6 +40,7 @@ ASK_JULIAN = AgentSpec(
         "Tell me about his company, Predictive Labs.",
         "Is Julian available for contract work?",
         "Can I book a call with Julian?",
+        "What does Julian's paper on temporal leakage in financial news NLP find?",
     ),
 )
 

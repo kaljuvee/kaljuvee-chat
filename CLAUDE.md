@@ -34,7 +34,9 @@ running the server, or import the sub-modules (`chat.routes`, `agents.base`, etc
 
 ## Architecture (the parts that span files)
 
-**Grounding, not RAG.** The CV is small, so the whole thing is injected into the system prompt.
+**Research papers use simple RAG.** `research/papers/*.md` are chunked and BM25-ranked by `research/__init__.py`; relevant chunks are prepended to the user's turn in `chat/routes.py`. Pages: `research_pages.py` (`/research`, `/research/<slug>`).
+
+**CV grounding, not RAG.** The CV is small, so the whole thing is injected into the system prompt.
 `agents/base._load_system_prompt(slug)` concatenates three files: `prompts/system/{slug}.md`
 (persona) + `prompts/shared/cv.md` (verbatim CV) + `prompts/shared/career_facts.md` (company,
 projects-by-sector, links). **The persona filename must equal the agent slug** (`ask_julian.md`).

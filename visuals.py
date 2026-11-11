@@ -85,7 +85,7 @@ def _page(tab: str, user_email=None, sessions=None):
         Button(NotStr(_BOOK), Span("Research", cls="toggle-label"),
                id="right-pane-toggle-btn", cls="right-pane-toggle", onclick="toggleArtifactPane()"),
         Script(NotStr(chart_js)),
-        Script(src="/static/chat.js?v=5"),
+        Script(src="/static/chat.js?v=6"),
         cls="bg-white text-ink font-sans antialiased app",
         **({"data-signed-in": "1"} if user_email else {}),
     )
