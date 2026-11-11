@@ -1,5 +1,11 @@
 # Change log
 
+## 1.1.1 — 2026-11-11
+
+- CI: the "Deploy to Coolify" workflow now POSTs to the new Coolify deploy endpoint
+  (coolify.predictivelabs.ai app `hmc8zfjzyzpsvpvl8qpvpaul`); repo secrets
+  `COOLIFY_WEBHOOK_URL` / `COOLIFY_TOKEN` were updated from the expired coolify.finespresso.org.
+
 ## 1.1.0 — 2026-11-11
 
 - **Research section.** New `/research` page (left-nav "Research" link) and `/research/<slug>`
